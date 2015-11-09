@@ -1,6 +1,7 @@
 # PlayerNotify
 
 ####_A simple Bukkit chat notification plugin_
+Version 1.0 - Compatible with CraftBukkit versions 1.7.9+
 
 ## About
 
