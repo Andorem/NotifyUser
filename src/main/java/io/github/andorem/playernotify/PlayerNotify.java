@@ -20,18 +20,19 @@ public class PlayerNotify extends JavaPlugin {
 	boolean sendPingNotification;
 
 	String noPermission = ChatColor.DARK_RED + "You don't have permission to perform this command.";
-	String userCommands = ChatColor.RED + "\nAvailable commands:\n"
-			+ ChatColor.GREEN + "/pn [username]" + ChatColor.WHITE 
+	String userCommands = ChatColor.RED + "\nAvailable commands:\n" 
+			+ ChatColor.GOLD + "All commands can also be typed as " + ChatColor.GREEN + "/pf" + ChatColor.GOLD + " or " + ChatColor.GREEN + "/playernotify\n"
+			+ ChatColor.GREEN + "/pln [username]" + ChatColor.WHITE 
 			+ " - Send a notification to a specific user without typing into public chat.\n"
-			+ ChatColor.GREEN + "/pn help" + ChatColor.WHITE
+			+ ChatColor.GREEN + "/pln help" + ChatColor.WHITE
 			+ " - Show all available PlayerNotify commands. \n"
-			+ ChatColor.GREEN + "/pn mute" + ChatColor.WHITE
+			+ ChatColor.GREEN + "/pln mute" + ChatColor.WHITE
 			+ " - Toggle mute/unmute for incoming notifications.";
 	String adminCommands = ChatColor.RED + "\nAdmin commands:\n" 
-			+ ChatColor.GREEN + "/pn set [SOUND_NAME]" + ChatColor.WHITE
+			+ ChatColor.GREEN + "/pln set [SOUND_NAME]" + ChatColor.WHITE
 			+ " - Set the notification sound to be heard by all players. \n"
 			+ ChatColor.GOLD + "Refer to http://jd.bukkit.org/org/bukkit/Sound.html\n"
-			+ ChatColor.GREEN + "/pn reload" + ChatColor.WHITE
+			+ ChatColor.GREEN + "/pln reload" + ChatColor.WHITE
 			+ " - Reloads the PlayerNotify configuration file. \n";
 	
 	@Override
@@ -70,7 +71,7 @@ public class PlayerNotify extends JavaPlugin {
     	boolean senderIsPlayer = (sender instanceof Player ? true : false);
     	Player pSender = (senderIsPlayer ? (Player) sender : null);
     	
-    	if (cmd.getName().equalsIgnoreCase("pn")) {
+    	if (cmd.getName().equalsIgnoreCase("pln")) {
     		if ((args.length < 1) || (args.length == 1 && args[0].equalsIgnoreCase("help"))) {
     		sender.sendMessage(ChatColor.AQUA + "======[" + ChatColor.WHITE + "PlayerNotify" + ChatColor.AQUA + "]======\n" 
     		+ ChatColor.WHITE + "To ping a player, type @ and their username into the chat. This is not case-sensitive.\n"
@@ -163,7 +164,7 @@ public class PlayerNotify extends JavaPlugin {
 	private void createConfig() {
 		FileConfiguration config = getConfig();
 		   config.options().header("[Configuration file for PlayerNotify by Nexamor]\n\n"
-				   + "To ping a player, type the symbol plus their name (not case sensitive): @Username, or type the command /pn [username].\n"
+				   + "To ping a player, type the symbol plus their name (not case sensitive): @Username, or type the command /pln [username].\n"
 				   + "\nconfig.yml - Configuration preferences for chat and command ping.\n"
 				   + "muted.dat - Record of all players that have muted their notifications.\n");
 				  
