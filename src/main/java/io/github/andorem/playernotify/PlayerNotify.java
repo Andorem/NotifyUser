@@ -21,18 +21,18 @@ public class PlayerNotify extends JavaPlugin {
 
 	String noPermission = ChatColor.DARK_RED + "You don't have permission to perform this command.";
 	String userCommands = ChatColor.RED + "\nAvailable commands:\n" 
-			+ ChatColor.GOLD + "All commands can also be typed as " + ChatColor.GREEN + "/pf" + ChatColor.GOLD + " or " + ChatColor.GREEN + "/playernotify\n"
-			+ ChatColor.GREEN + "/pln [username]" + ChatColor.WHITE 
+			+ ChatColor.GOLD + "All commands can also be typed as " + ChatColor.GREEN + "/pln" + ChatColor.GOLD + " or " + ChatColor.GREEN + "/playernotify\n"
+			+ ChatColor.GREEN + "/pf [username]" + ChatColor.WHITE 
 			+ " - Send a notification to a specific user without typing into public chat.\n"
-			+ ChatColor.GREEN + "/pln help" + ChatColor.WHITE
+			+ ChatColor.GREEN + "/pf help" + ChatColor.WHITE
 			+ " - Show all available PlayerNotify commands. \n"
-			+ ChatColor.GREEN + "/pln mute" + ChatColor.WHITE
+			+ ChatColor.GREEN + "/pf mute" + ChatColor.WHITE
 			+ " - Toggle mute/unmute for incoming notifications.";
 	String adminCommands = ChatColor.RED + "\nAdmin commands:\n" 
-			+ ChatColor.GREEN + "/pln set [SOUND_NAME]" + ChatColor.WHITE
+			+ ChatColor.GREEN + "/pf set [SOUND_NAME]" + ChatColor.WHITE
 			+ " - Set the notification sound to be heard by all players. \n"
 			+ ChatColor.GOLD + "Refer to http://jd.bukkit.org/org/bukkit/Sound.html\n"
-			+ ChatColor.GREEN + "/pln reload" + ChatColor.WHITE
+			+ ChatColor.GREEN + "/pf reload" + ChatColor.WHITE
 			+ " - Reloads the PlayerNotify configuration file. \n";
 	
 	@Override
@@ -71,7 +71,7 @@ public class PlayerNotify extends JavaPlugin {
     	boolean senderIsPlayer = (sender instanceof Player ? true : false);
     	Player pSender = (senderIsPlayer ? (Player) sender : null);
     	
-    	if (cmd.getName().equalsIgnoreCase("pln")) {
+    	if (cmd.getName().equalsIgnoreCase("pf")) {
     		if ((args.length < 1) || (args.length == 1 && args[0].equalsIgnoreCase("help"))) {
     		sender.sendMessage(ChatColor.AQUA + "======[" + ChatColor.WHITE + "PlayerNotify" + ChatColor.AQUA + "]======\n" 
     		+ ChatColor.WHITE + "To ping a player, type @ and their username into the chat. This is not case-sensitive.\n"
