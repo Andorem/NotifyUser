@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # PlayerNotify 
 ####*A simple Bukkit chat notification plugin*
 
@@ -62,7 +61,6 @@ If a player wishes to not receive sound alerts or on-command pings, they can use
 All commands can also be executed with **/playernotify** and **/pf**.
 
 ### Standard commands:
->>>>>>> 7a2ad8bd5ce3ab4bc27c2bbbbcbb6dec5d308dad
 
 **/pln [username]** - Send a notification to a specific user without typing into public chat.
 
@@ -70,7 +68,6 @@ All commands can also be executed with **/playernotify** and **/pf**.
 
 **/pln mute** - Toggle mute/unmute for incoming notifications.
 
-<<<<<<< HEAD
 ###Admin commands:
 
 **/pln set [SOUND_NAME]** - Set the notification sound to be heard by all players. (Refer to http://jd.bukkit.org/org/bukkit/Sound.html) 
@@ -153,7 +150,6 @@ To determine whether or not an on-command ping will alert the recipient or not, 
 ## Permissions
 
 **PlayerNotify.*** - Gives access to all PlayerNotify commands. (default: op)
->>>>>>> 7a2ad8bd5ce3ab4bc27c2bbbbcbb6dec5d308dad
 
 **PlayerNotify.player.*** - Gives access to all standard player permissions.
 
@@ -163,10 +159,6 @@ To determine whether or not an on-command ping will alert the recipient or not, 
 
 **PlayerNotify.player.mute** - Allows a player to mute any incoming notification sounds. (default: true)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 7a2ad8bd5ce3ab4bc27c2bbbbcbb6dec5d308dad
 **PlayerNotify.admin.*** - Gives access to all admin permissions.
 
 **PlayerNotify.admin.set** - Allows you to set the notification sound for all players. (default: op)
