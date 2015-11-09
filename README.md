@@ -40,45 +40,6 @@ All commands can also be executed with **/playernotify** and **/pf**.
 
 **/pln mute** - Toggle mute/unmute for incoming notifications.
 
-###Admin commands:
-
-**/pln set [SOUND_NAME]** - Set the notification sound to be heard by all players. (Refer to http://jd.bukkit.org/org/bukkit/Sound.html) 
-
-**/pln reload** - Reloads the PlayerNotify configuration file.
-
-##Setting up
-There are several optional preferences for customization within the `config.yml` if you so desire. After editing and saving the file, either restart the server or type `/pn reload` to update the plugin's settings.
-
-###The notification alert
-
-####Changing the sound
-You can change the sound a player hears when they are pinged with the `/pn set [SOUND_NAME]` command in-game, or by editing `notifications.sound-effect` in the config file.
-
-To determine the name of the alert you want, refer to the list of sounds at jd.bukkit.org/org/bukkit/Sound.html (in the "Enum Constant Summary"). Be sure to include any underscores and correct capitalization. 
-
-####Controlling volume and pitch
-If you want to set how loud or high-pitched the sound is, you can do so by editing `notifications.volume` and `notifications.pitch` in the config file, respectively.
-
-The `volume` determines how loud or quiet the alert noise will be when mentioned or pinged. 100 corresponds to full volume. 
-
-The `pitch` determines how high or low pitched it will sound. 1 represents the noise's normal range of pitch. Feel free to experiment, but it might be best left alone. 
-
-###Tweak player mentions
-
-####The tag handle
-The tag handle is the symbol that a player must type right before a username in order to activate the ping mention. If a valid username is tagged, it will become highlighted in the chat area for easy noticing, and a ping will be sent to that player (unless it is muted). 
-
-By default, the tag handle is `@`, however it can be easily changed by editing `chat.symbol` in the config. Though a single special character is reccomended, the tag handle can be any one string you wish (e.g. `>>` or `Wololo`).
-
-####Choosing how pings work
-PlayerNotify gives you the option of tweaking how a ping mention will be activated in the main chat or silent commands. You can change the minimum amount of letters of a username that a person must type in order to ping someone with `chat.min-num-length`. Anything tagged below this number will be ignored, not highlighted, and no alert made.
-
-To determine whether or not an on-command ping will alert the recipient or not, change `chat.notify` to false. When true, the command `/pn [username]` will send both a sound alert and silent message `"SENDER has pinged you!" to the user. 
-
-##Permissions
-**PlayerNotify.*** - Gives access to all PlayerNotify commands. (default: op)
-
-=======
 ### Admin commands:
 
 **/pln set [SOUND_NAME]** - Set the notification sound to be heard by all players. (Refer to [http://jd.bukkit.org/org/bukkit/Sound.html](http://jd.bukkit.org/org/bukkit/Sound.html))
