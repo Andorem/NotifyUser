@@ -1,31 +1,3 @@
-# PlayerNotify 
-####*A simple Bukkit chat notification plugin*
-
-##About
-PlayerNotify is a quick-and-easy chat plugin for sending and receiving chat notifications. When a player "tags"    another username in the chat area (e.g. "@Andorem"), the username will become highlighted and the pinged user will receive a customizable alert, using sounds already available in vanilla Minecraft. 
-
-There are many chat ping plugins that work great, but I was looking for something just a bit more customizable. As a result, PlayerNotify has several configuration preferences (`/plugins/PlayerNotify/config.yml`) such as choosing your desired sound, muting notifications, determining how players can be tagged, and the minimum requirements required to activate a ping. 
-
-You can simply grab the [jar](http://dev.bukkit.org/bukkit-plugins/playernotify) and use it right away or, if you so wish, tweak the default configuration file. It's up to you!
-
-##Installing
-Though customizable, PlayerNotify works out of the box and requires no extra set-up to use. Just drop the Jar file into your server's plugin folder, restart, and you're good to go! 
-
-##How to use
-###Pinging a player
-There are two ways to send notifications to other users, through public chat tagging and a command. 
-
-To ping a player from the chat, simply "tag" them with the appropriate symbol: `Hey, @TeddyRoosevelt! What's up?`. The tagged username will become highlighted and the mentioned user will receive a sound alert. This is not case-sensitive, and it recognizes partial usernames, so `@Teddy` and `@teddyroosevelt` work just as well. 
-
-If you want to ping a player without making a public mention, you can type `/pn [username]` without any symbol in order to notify them directly. They will receive (unless disabled) a message saying who pinged them and a sound alert. The same name sensitivity as the first method applies.
-
-###Muting notifications
-If a player wishes to not receive sound alerts or on-command pings, they can use `/pn mute`. Text tag-highlighting will still go through, but both sound alerts and pings made through the `/pn` command will be blocked. This acts as a toggle, and can be turned off by typing `/pn mute` again.
-
-##Commands
-All commands can also be executed with **/playernotify** and **/pf**.
-###Standard commands:
-=======
 # PlayerNotify
 
 ####_A simple Bukkit chat notification plugin_
