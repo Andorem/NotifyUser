@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.andorem</groupId>
   <artifactId>PlayerNotify</artifactId>
-  <version>1.0.01</version>
+  <version>1.0.03</version>
      <build>
       <plugins>
           <plugin>
