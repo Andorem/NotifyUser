@@ -12,6 +12,7 @@ public class ChatListener implements Listener {
 	
 	Notification notification;
 	String pingSymbol;
+	String highlightColor;
 	int minNameLen;
 	
 	public ChatListener(Notification notification) {
@@ -20,7 +21,7 @@ public class ChatListener implements Listener {
 	
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent e) {
-		if (e.getPlayer().hasPermission("LexNotify.player.send")) {
+		if (e.getPlayer().hasPermission("PlayerNotify.player.send")) {
 			String sentMessage = e.getMessage();
 			if (sentMessage.contains(pingSymbol)) {
 				String newMessage = "";
@@ -34,7 +35,7 @@ public class ChatListener implements Listener {
 						Player receiver = Bukkit.getPlayer(receiverName);
 					
 						if (receiver != null && receiverName.length() >= minNameLen) {
-							word = ChatColor.LIGHT_PURPLE + pingSymbol + receiverName + ChatColor.RESET + punctuation;
+							word = highlightColor + pingSymbol + receiverName + ChatColor.RESET + punctuation;
 							if (receiver.hasPermission("LexNotify.player.receive")) {
 								notification.toPlayer(receiver);
 							}
@@ -54,5 +55,6 @@ public class ChatListener implements Listener {
 	void setValuesFrom(FileConfiguration config) {
         pingSymbol = config.getString("chat.symbol");
         minNameLen = config.getInt("chat.min-name-length");
+        highlightColor = ChatColor.translateAlternateColorCodes('&', config.getString("chat.highlight-color"));
 	}
 }
