@@ -75,6 +75,8 @@ The tag handle is the symbol that a player must type right before a username in 
 
 By default, the tag handle is `@`, however it can be easily changed by editing `chat.symbol` in the config. Though a single special character is reccomended, the tag handle can be any one string you wish (e.g. `>>` or `Wololo`).
 
+You can also change the color that the tagged username will be highlighted by adding an "&" color code in `chat.highlight-color`.
+
 #### Choosing how pings work
 
 PlayerNotify gives you the option of tweaking how a ping mention will be activated in the main chat or silent commands. You can change the minimum amount of letters of a username that a person must type in order to ping someone with `chat.min-num-length`. Anything tagged below this number will be ignored, not highlighted, and no alert made.
@@ -98,3 +100,38 @@ To determine whether or not an on-command ping will alert the recipient or not, 
 **PlayerNotify.admin.set** - Allows you to set the notification sound for all players. (default: op)
 
 **PlayerNotify.admin.reload** - Allows you to use the reload command to update the config. (default: op)
+
+##Default config.yml
+```
+# [Configuration file for PlayerNotify by Nexamor]
+#
+# To ping a player, type the symbol plus their name (not case sensitive): @Username, 
+# or type the command /pn [username].
+#
+# config.yml - Configuration preferences for chat and command ping.
+# muted.dat - Record of all players that have muted their notifications.
+#
+# notifications:
+#   sound-effect: Name (all caps) of the sound to played when pinged.
+#   (Refer to http://jd.bukkit.org/org/bukkit/Sound.html for a list of sounds.)
+#   volume: Volume at which the notification will be heard (100 = loudest).
+#   pitch: Pitch at which the notification will be heard (1 = normal). Reccomend to leave alone.
+#
+# chat:
+#   symbol: Symbol(s) used when typing in chat to ping a user (e.g. @ # *)
+#   highlight-color: Set the color that tagged names will be highlighted with (&a, &b, &c...)
+#   min-name-length: One must type at least this many letters to ping another player.
+#   Only applies when pinging in public chat. Anything below will not
+#   be highlighted or make a ping noise.
+#   notify: True or false. If true, the player pinged by /pn [username] will be told who sent it.
+
+notifications:
+  sound-effect: CHICKEN_EGG_POP
+  volume: 100
+  pitch: 1
+chat:
+  symbol: '@'
+  highlight-color: '&d'
+  min-name-length: 3
+  notify: true
+```
