@@ -35,17 +35,17 @@ All commands can also be executed with **/notifyuser** and **/nfy**.
 
 ### Standard commands:
 
-**/notifyuser [username]** - Send a notification to a specific user without typing into public chat.
+**/nu [username]** - Send a notification to a specific user without typing into public chat.
 
-**/notifyuser help** - Show all available NotifyUser commands.
+**/nu help** - Show all available NotifyUser commands.
 
-**/notifyuser mute** - Toggle mute/unmute for incoming notifications.
+**/nu mute** - Toggle mute/unmute for incoming notifications.
 
 ### Admin commands:
 
-**/notifyuser set [SOUND_NAME]** - Set the notification sound to be heard by all players. (Refer to [http://jd.bukkit.org/org/bukkit/Sound.html](http://jd.bukkit.org/org/bukkit/Sound.html))
+**/nu set [SOUND_NAME]** - Set the notification sound to be heard by all players. (Refer to [http://jd.bukkit.org/org/bukkit/Sound.html](http://jd.bukkit.org/org/bukkit/Sound.html))
 
-**/notifyuser reload** - Reloads the NotifyUser configuration file.
+**/nu reload** - Reloads the NotifyUser configuration file.
 
 ## Setting up
 
