@@ -9,39 +9,39 @@ commands:
       description: Send a ping notification sound to a player.
       usage: /nu [username|help|mute]
       aliases: [notifyuser, nfy]
-      permission: PlayerNotify.player.send
+      permission: NotifyUser.player.send
       permission-message: You do not have permission to perform this command.
 
 permissions:
-   PlayerNotify.*:
-     description: Gives access to all PlayerNotify commands.
+   NotifyUser.*:
+     description: Gives access to all NotifyUser commands.
      default: op
      children: 
-       PlayerNotify.player.*: true
-       PlayerNotify.admin.*: true
-   PlayerNotify.player.*: 
+       NotifyUser.player.*: true
+       NotifyUser.admin.*: true
+   NotifyUser.player.*: 
      description: Gives access to all standard player permissions.
      children:
-       PlayerNotify.player.send: true
-       PlayerNotify.player.receive: true
-       PlayerNotify.player.mute: true
-   PlayerNotify.player.send:
+       NotifyUser.player.send: true
+       NotifyUser.player.receive: true
+       NotifyUser.player.mute: true
+   NotifyUser.player.send:
      description: Allows a player to send in-chat and sound notifications.
      default: true
-   PlayerNotify.player.receive:
+   NotifyUser.player.receive:
      description: Allows a player to receive in-chat and sound notifications.
      default: true
-   PlayerNotify.player.mute:
+   NotifyUser.player.mute:
      description: Allows a player to mute any incoming notification sounds.
      default: true
-   PlayerNotify.admin.*:
+   NotifyUser.admin.*:
      description: Gives access to all admin permissions.
      children:
-       PlayerNotify.admin.set: true
-       PlayerNotify.admin.reload: true
-   PlayerNotify.admin.set:
+       NotifyUser.admin.set: true
+       NotifyUser.admin.reload: true
+   NotifyUser.admin.set:
      description: Allows you to set the notification sound for all players.
      default: op
-   PlayerNotify.admin.reload:
+   NotifyUser.admin.reload:
      description: Allows you to use the reload command to update the config.
      default: op
