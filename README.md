@@ -1,19 +1,12 @@
 # NotifyUser
 
-####_A simple Bukkit chat notification plugin_
-Version 1.0.x - Compatible with CraftBukkit versions 1.7.9+
+NotifyUser is a quick-and-easy chat plugin for sending and receiving chat notifications. When a player "tags" another user in the chat area (e.g. "@Andorem"), the username will become highlighted and the pinged user will receive a customizable alert, from sounds already available in Minecraft.
 
-## About
-
-NotifyUser is a quick-and-easy chat plugin for sending and receiving chat notifications. When a player "tags" another username in the chat area (e.g. "@Andorem"), the username will become highlighted and the pinged user will receive a customizable alert, using sounds already available in vanilla Minecraft.
-
-There are many chat ping plugins that work great, but I was looking for something just a bit more customizable. As a result, NotifyUser has several configuration preferences (`/plugins/NotifyUser/config.yml`) such as choosing your desired sound, muting notifications, determining how players can be tagged, and the minimum requirements required to activate a ping.
-
-You can simply grab the [jar](http://dev.bukkit.org/bukkit-plugins/NotifyUser) and use it right away or, if you so wish, tweak the default configuration file. It's up to you!
+ As a result of a desire for a a bit more customizable ping plugin, UserNotify has several configuration preferences for choosing different sounds, muting notifications, tagging & pinging options.
 
 ## Installing
 
-Though customizable, NotifyUser works out of the box and requires no extra set-up to use. Just drop the Jar file into your server's plugin folder, restart, and you're good to go!
+Though customizable, NotifyUser works out of the box and requires no extra set-up to use. Just drop the Jar file into your server's plugin folder, restart, and you're good to go. Or, if you so wish, tweak the default configuration file. It's up to you!
 
 ## How to use
 
@@ -23,7 +16,7 @@ There are two ways to send notifications to other users, through public chat tag
 
 To ping a player from the chat, simply "tag" them with the appropriate symbol: `Hey, @TeddyRoosevelt! What's up?`. The tagged username will become highlighted and the mentioned user will receive a sound alert. This is not case-sensitive, and it recognizes partial usernames, so `@Teddy` and `@teddyroosevelt` work just as well.
 
-If you want to ping a player without making a public mention, you can type `/nu [username]` without any symbol in order to notify them directly. They will receive (unless disabled) a message saying who pinged them and a sound alert. The same name sensitivity as the first method applies.
+If you want to ping a player without making a public mention, you can type `/nu [username]` without any symbol in order to notify them directly. They will receive a message saying who pinged them and a sound alert (unless disabled). The same name sensitivity as the first method applies.
 
 ### Muting notifications
 
@@ -35,17 +28,49 @@ All commands can also be executed with **/notifyuser** and **/nfy**.
 
 ### Standard commands:
 
-**/nu [username]** - Send a notification to a specific user without typing into public chat.
-
-**/nu help** - Show all available NotifyUser commands.
-
-**/nu mute** - Toggle mute/unmute for incoming notifications.
+* **/nu [username]** - Send a notification to a specific user without typing into public chat.
+* **/nu help** - Show all available NotifyUser commands.
+* **/nu mute** - Toggle mute/unmute for incoming notifications.
 
 ### Admin commands:
 
-**/nu set [SOUND_NAME]** - Set the notification sound to be heard by all players. (Refer to [http://jd.bukkit.org/org/bukkit/Sound.html](http://jd.bukkit.org/org/bukkit/Sound.html))
+* **/nu set [SOUND_NAME]** - Set the notification sound to be heard by all players. (Refer to [http://jd.bukkit.org/org/bukkit/Sound.html](http://jd.bukkit.org/org/bukkit/Sound.html))
+* **/nu reload** - Reloads the NotifyUser configuration file.
 
-**/nu reload** - Reloads the NotifyUser configuration file.
+## Permissions
+
+* **NotifyUser.*** - Gives access to all NotifyUser commands. (default: op)
+* **NotifyUser.player.*** - Gives access to all standard player permissions.
+* **NotifyUser.player.send** - Allows a player to send in-chat and sound notifications. (default: true)
+* **NotifyUser.player.receive** - Allows a player to receive in-chat and sound notifications. (default: true)
+* **NotifyUser.player.mute** - Allows a player to mute any incoming notification sounds. (default: true)
+* **NotifyUser.admin.*** - Gives access to all admin permissions.
+* **NotifyUser.admin.set** - Allows you to set the notification sound for all players. (default: op)
+* **NotifyUser.admin.reload** - Allows you to use the reload command to update the config. (default: op)
+
+##Config.yml
+
+* config.yml - Configuration preferences for chat and command ping.
+* muted.dat - Record of all players that have muted their notifications.
+
+* notifications:
+    * sound-effect: 
+      * Name (all caps) of the sound to play when pinged.
+      * (Refer to [Bukkit's list of sounds](http://jd.bukkit.org/org/bukkit/Sound.html).)
+    * volume
+      * Volume at which the notification will be heard (100 = loudest).
+    * pitch
+      * Pitch at which the notification will be heard (1 = normal).
+* chat:
+    * symbol
+      * Symbol(s) used when typing in chat to ping a user (e.g. @ # *)
+    * highlight-color
+      * Set the color that tagged names will be highlighted with (e.g. &a, &b, &c...)
+    * min-name-length
+      * One must type at least this many letters to ping another player.
+      * Only applies when pinging in public chat. Anything below will not  be highlighted or make a ping noise.
+    * notify
+      * True or false. If true, the player pinged by /nu [username] will be told who sent it.
 
 ## Setting up
 
@@ -57,7 +82,7 @@ There are several optional preferences for customization within the `config.yml`
 
 You can change the sound a player hears when they are pinged with the `/nu set [SOUND_NAME]` command in-game, or by editing `notifications.sound-effect` in the config file.
 
-To determine the name of the alert you want, refer to the list of sounds at jd.bukkit.org/org/bukkit/Sound.html (in the "Enum Constant Summary"). Be sure to include any underscores and correct capitalization.
+To determine the name of the alert you want, refer to the list of sounds [here](jd.bukkit.org/org/bukkit/Sound.html). Be sure to include any underscores and correct capitalization.
 
 #### Controlling volume and pitch
 
@@ -83,55 +108,4 @@ NotifyUser gives you the option of tweaking how a ping mention will be activated
 
 To determine whether or not an on-command ping will alert the recipient or not, change `chat.notify` to false. When true, the command `/nu [username]` will send both a sound alert and silent message `"SENDER has pinged you!" to the user.
 
-## Permissions
-
-**NotifyUser.*** - Gives access to all NotifyUser commands. (default: op)
-
-**NotifyUser.player.*** - Gives access to all standard player permissions.
-
-**NotifyUser.player.send** - Allows a player to send in-chat and sound notifications. (default: true)
-
-**NotifyUser.player.receive** - Allows a player to receive in-chat and sound notifications. (default: true)
-
-**NotifyUser.player.mute** - Allows a player to mute any incoming notification sounds. (default: true)
-
-**NotifyUser.admin.*** - Gives access to all admin permissions.
-
-**NotifyUser.admin.set** - Allows you to set the notification sound for all players. (default: op)
-
-**NotifyUser.admin.reload** - Allows you to use the reload command to update the config. (default: op)
-
-##Default config.yml
-```
-# [Configuration file for NotifyUser by Nexamor]
-#
-# To ping a player, type the symbol plus their name (not case sensitive): @Username, 
-# or type the command /nu [username].
-#
-# config.yml - Configuration preferences for chat and command ping.
-# muted.dat - Record of all players that have muted their notifications.
-#
-# notifications:
-#   sound-effect: Name (all caps) of the sound to played when pinged.
-#   (Refer to http://jd.bukkit.org/org/bukkit/Sound.html for a list of sounds.)
-#   volume: Volume at which the notification will be heard (100 = loudest).
-#   pitch: Pitch at which the notification will be heard (1 = normal). Reccomend to leave alone.
-#
-# chat:
-#   symbol: Symbol(s) used when typing in chat to ping a user (e.g. @ # *)
-#   highlight-color: Set the color that tagged names will be highlighted with (&a, &b, &c...)
-#   min-name-length: One must type at least this many letters to ping another player.
-#   Only applies when pinging in public chat. Anything below will not
-#   be highlighted or make a ping noise.
-#   notify: True or false. If true, the player pinged by /nu [username] will be told who sent it.
-
-notifications:
-  sound-effect: CHICKEN_EGG_POP
-  volume: 100
-  pitch: 1
-chat:
-  symbol: '@'
-  highlight-color: '&d'
-  min-name-length: 3
-  notify: true
-```
+[Source Code](https://github.com/Andorem/NotifyUser)
