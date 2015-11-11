@@ -112,4 +112,4 @@ NotifyUser gives you the option of tweaking how a ping mention will be activated
 
 To determine whether or not an on-command ping will alert the recipient or not, change `chat.notify` to false. When true, the command `/nu [username]` will send both a sound alert and silent message `"SENDER has pinged you!" to the user.
 
-[Source Code](https://github.com/Andorem/NotifyUser)
+\[[Source Code](https://github.com/Andorem/NotifyUser)\]
