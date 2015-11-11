@@ -5,15 +5,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -23,27 +25,17 @@ import org.bukkit.plugin.java.JavaPlugin;
  
 public class NotifyUser extends JavaPlugin {
 	
-	static File DATA_FOLDER;
+	public static File DATA_FOLDER;
+	Logger log = getLogger();
 	Notification notification;
 	ChatListener chatListener;
-	Logger log = getLogger();
 	boolean sendPingNotification;
+	FileConfiguration commandConfig = YamlConfiguration.loadConfiguration(getTextResource("commands.yml"));
 
 	String noPermission = ChatColor.DARK_RED + "You don't have permission to perform this command.";
-	String userCommands = ChatColor.RED + "\nAvailable commands:\n" 
-			+ ChatColor.GOLD + "All commands can also be typed as " + ChatColor.GREEN + "/pln" + ChatColor.GOLD + " or " + ChatColor.GREEN + "/NotifyUser\n"
-			+ ChatColor.GREEN + "/nu [username]" + ChatColor.WHITE 
-			+ " - Send a notification to a specific user without typing into public chat.\n"
-			+ ChatColor.GREEN + "/nu help" + ChatColor.WHITE
-			+ " - Show all available NotifyUser commands. \n"
-			+ ChatColor.GREEN + "/nu mute" + ChatColor.WHITE
-			+ " - Toggle mute/unmute for incoming notifications.";
-	String adminCommands = ChatColor.RED + "\nAdmin commands:\n" 
-			+ ChatColor.GREEN + "/nu set [SOUND_NAME]" + ChatColor.WHITE
-			+ " - Set the notification sound to be heard by all players. \n"
-			+ ChatColor.GOLD + "Refer to http://jd.bukkit.org/org/bukkit/Sound.html\n"
-			+ ChatColor.GREEN + "/nu reload" + ChatColor.WHITE
-			+ " - Reloads the NotifyUser configuration file. \n";
+	String chatHeader = ChatColor.AQUA + "\n======[" + ChatColor.WHITE + getName() + ChatColor.AQUA + "]======";
+	String generalCommands = getHelpCommands(commandConfig, "general");
+	String adminCommands = getHelpCommands(commandConfig, "admin");
 	
 	@Override
     public void onEnable() {
@@ -79,14 +71,14 @@ public class NotifyUser extends JavaPlugin {
     	
     	if (cmd.getName().equalsIgnoreCase("nu")) {
     		if ((args.length < 1) || (args.length == 1 && args[0].equalsIgnoreCase("help"))) {
-    		sender.sendMessage(ChatColor.AQUA + "======[" + ChatColor.WHITE + "NotifyUser" + ChatColor.AQUA + "]======\n" 
-    		+ ChatColor.WHITE + "To ping a player, type @ and their username into the chat. This is not case-sensitive.\n"
+    		sender.sendMessage(chatHeader);
+    		sender.sendMessage(ChatColor.WHITE + "To ping a player, type @ and their username into the chat. This is not case-sensitive.\n"
     		+ "You must type at least " + ChatColor.RED + chatListener.getMinNameLen()
 			+ ChatColor.WHITE + " characters of the username in order to ping them. \n"
 			+ ChatColor.GOLD + "E.g. To ping MaryAnn32, type @MaryAnn32, @MaryAnn, or @mary.\n");
-    			sender.sendMessage(userCommands);
-    			if (sender.hasPermission("NotifyUser.admin.set")) sender.sendMessage(adminCommands);
-    			return true;
+    		sender.sendMessage(generalCommands);
+    		if (sender.hasPermission("NotifyUser.admin.set")) sender.sendMessage(adminCommands);
+    		return true;
     		}
     		
     		else if (args.length == 1) {
@@ -224,12 +216,43 @@ public class NotifyUser extends JavaPlugin {
         try {
             config.load(file);
             return true;
-        } catch (FileNotFoundException ex) {
-        } catch (IOException ex) {
-            Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
-        } catch (InvalidConfigurationException ex) {
-            Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file , ex);
+        } 
+        catch (FileNotFoundException ex) {
+        } 
+        catch (IOException ex) {
+            getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
+        } 
+        catch (InvalidConfigurationException ex) {
+            getLogger().log(Level.SEVERE, "Cannot load " + file , ex);
         }
         return false;
     }
+    
+    String getHelpCommands(FileConfiguration config, String groupName) {
+    	ConfigurationSection groupSection = config.getConfigurationSection(groupName);
+    	Set<String> groupCommands = groupSection.getKeys(false);
+    	String helpHeader = ChatColor.RED + StringUtils.capitalize(groupName) + " Commands: \n";
+    	String helpCommands = helpHeader;
+    	
+    	for (String commandName : groupCommands) {
+    		String helpCommand = "";
+    		ConfigurationSection commandSection = groupSection.getConfigurationSection(commandName);
+    		Set<String> commandInfo = commandSection.getKeys(false);
+    		
+    		for (String commandKey : commandInfo) {
+    			String commandValue = commandSection.getString(commandKey);
+    			if (commandKey.equals("usage")) {
+    				helpCommand += ChatColor.GREEN + commandValue;
+    			}
+    			else if (commandKey.equals("description")) {
+    				helpCommand += ChatColor.WHITE + " - " + commandValue + "\n";
+    			}
+    		}
+    		
+    		helpCommands += helpCommand;
+    	}
+    	
+    	return helpCommands;
+    }
+    
 }
