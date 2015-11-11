@@ -30,7 +30,7 @@ If a player wishes to not receive sound alerts or on-command pings, they can use
 
 All commands can also be executed with **/notifyuser** and **/nfy**.
 
-### Standard commands:
+### General commands:
 
 * **/nu [username]** - Send a notification to a specific user without typing into public chat.
 * **/nu help** - Show all available NotifyUser commands.
