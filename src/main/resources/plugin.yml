@@ -1,7 +1,7 @@
 name: NotifyUser
 author: Nexamor
 main: io.github.andorem.notifyuser.NotifyUser
-version: 1.0.3
+version: 1.0.4
 description: Send and receive in-chat and sound notifications to other players.
 
 commands:

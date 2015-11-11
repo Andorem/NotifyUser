@@ -45,6 +45,7 @@ public class NotifyUser extends JavaPlugin {
     		if(!DATA_FOLDER.exists()) {
     		    DATA_FOLDER.mkdir();
     		}
+    		ensureConfigExists();
             updateConfig();
         } 
         catch (Exception e) {
@@ -101,9 +102,10 @@ public class NotifyUser extends JavaPlugin {
     			
     			else if (args[0].equalsIgnoreCase("reload")) {
     				if (sender.hasPermission("NotifyUser.admin.reload")) {
+    					ensureConfigExists();
     					if (isConfigurationValid(new File(DATA_FOLDER, "config.yml"))) {
-    						updateConfig();
     						reloadConfig();
+    						updateConfig();
     						loadFromConfig();
         					sender.sendMessage(ChatColor.GREEN + "Config reloaded.");
     					}
@@ -120,13 +122,16 @@ public class NotifyUser extends JavaPlugin {
     			else {
     				if ((sender.hasPermission("NotifyUser.player.send"))) {
     					Player receiver = getServer().getPlayer(args[0]);
-    					if (receiver == null) {
+    					if (args[0].length() < chatListener.getMinNameLen()) {
+    						sender.sendMessage(ChatColor.RED + "You must type at least " + chatListener.getMinNameLen() + " characters to ping!");
+    					}
+    					else if (receiver == null) {
     						sender.sendMessage(ChatColor.RED + "Error: " + ChatColor.DARK_RED + "Player not found.");
     					}
     					else if (notification.isMutedFor(receiver.getUniqueId())) {
     						sender.sendMessage(ChatColor.RED + receiver.getName() + " has muted notifications.");
     					}
-    					else {	
+    					else {
     						notification.toPlayer(receiver);
     						sender.sendMessage("Notification sent to " + receiver.getName() + ".");
     						if (sendPingNotification) {
@@ -168,7 +173,6 @@ public class NotifyUser extends JavaPlugin {
     }
     
     private void updateConfig() {
-    	ensureConfigExists();
     	HashMap<String, Object> missingValues = new HashMap<String, Object>();
 		missingValues = getMissingDefaults();
 
