@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -122,7 +121,6 @@ public class NotifyUser extends JavaPlugin {
     				}
     				else {
     					sender.sendMessage(noPermission);
-    					log.info(sender.getName() + " attempted to perform the reload command.");
     				}
 					return true;
     			}
@@ -161,7 +159,6 @@ public class NotifyUser extends JavaPlugin {
     				}
     				else {
     					sender.sendMessage(noPermission);
-    					log.info(sender.getName() + " attempted to perform the set [sound] command.");
     				}
     				return true;
     			}
@@ -180,7 +177,7 @@ public class NotifyUser extends JavaPlugin {
     
     private void updateConfig() {
     	ensureConfigExists();
-    	Map<String, Object> missingValues = null;
+    	HashMap<String, Object> missingValues = new HashMap<String, Object>();
 		missingValues = getMissingDefaults();
 
         if (!missingValues.isEmpty()) {
@@ -205,9 +202,9 @@ public class NotifyUser extends JavaPlugin {
         }
     }
     
-    private Map<String, Object> getMissingDefaults() {
+    private HashMap<String, Object> getMissingDefaults() {
     	Configuration defaultConfig = getConfig().getDefaults();
-    	Map<String, Object> foundDefaults = new HashMap<String, Object>();
+    	HashMap<String, Object> foundDefaults = new HashMap<String, Object>();
     	
         for (String key : defaultConfig.getKeys(true)) {
         	if (!getConfig().getKeys(true).contains(key)) {
