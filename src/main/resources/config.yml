@@ -7,14 +7,14 @@
 # muted.dat - Record of all players that have muted their notifications.
 #
 # notifications:
-#   sound-effect: Name (all caps) of the sound to played when pinged.
+#   sound-effect: Name (all caps) of the sound to play when pinged.
 #   (Refer to http://jd.bukkit.org/org/bukkit/Sound.html for a list of sounds.)
 #   volume: Volume at which the notification will be heard (100 = loudest).
 #   pitch: Pitch at which the notification will be heard (1 = normal).
 #
 # chat:
 #   symbol: Symbol(s) used when typing in chat to ping a user (e.g. @ # *)
-#   highlight-color: Set the color that tagged names will be highlighted with (&a, &b, &c...)
+#   highlight-color: Set the color that tagged names will be highlighted with (e.g. &a, &b, &c...)
 #   min-name-length: One must type at least this many letters to ping another player.
 #   Only applies when pinging in public chat. Anything below will not
 #   be highlighted or make a ping noise.
