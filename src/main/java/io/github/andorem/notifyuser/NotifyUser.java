@@ -131,7 +131,7 @@ public class NotifyUser extends JavaPlugin {
     					else if (notification.isMutedFor(receiver.getUniqueId())) {
     						sender.sendMessage(ChatColor.RED + receiver.getName() + " has muted notifications.");
     					}
-    					else {
+    					else if (receiver.hasPermission("NotifyUser.player.receive")){
     						notification.toPlayer(receiver);
     						sender.sendMessage("Notification sent to " + receiver.getName() + ".");
     						if (sendPingNotification) {

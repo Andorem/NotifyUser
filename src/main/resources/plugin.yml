@@ -1,13 +1,13 @@
 name: NotifyUser
 author: Nexamor
 main: io.github.andorem.notifyuser.NotifyUser
-version: 1.0.4
+version: 1.0.5
 description: Send and receive in-chat and sound notifications to other players.
 
 commands:
    nu:
       description: Send a ping notification sound to a player.
-      usage: /nu [username|help|mute]
+      usage: '/nu [username|help|mute]'
       aliases: [notifyuser, nfy]
       permission: NotifyUser.player.send
       permission-message: You do not have permission to perform this command.

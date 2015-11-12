@@ -36,7 +36,7 @@ public class ChatListener implements Listener {
 					
 						if (receiver != null && receiverName.length() >= minNameLen) {
 							word = highlightColor + pingSymbol + receiverName + ChatColor.RESET + punctuation;
-							if (receiver.hasPermission("LexNotify.player.receive")) {
+							if (receiver.hasPermission("NotifyUser.player.receive")) {
 								notification.toPlayer(receiver);
 							}
 						}
