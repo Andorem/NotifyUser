@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="NotifyUser : Simple Bukkit plugin that allows players to send and receive notifications via mention and command.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>NotifyUser</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/Andorem/NotifyUser">View on GitHub</a>
+
+          <h1 id="project_title">NotifyUser</h1>
+          <h2 id="project_tagline">Simple Bukkit plugin that allows players to send and receive notifications via mention and command.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/Andorem/NotifyUser/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/Andorem/NotifyUser/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="notifyuser" class="anchor" href="#notifyuser" aria-hidden="true"><span class="octicon octicon-link"></span></a>NotifyUser</h1>
+
+<h3>
+<a id="a-simple-bukkit-chat-notification-plugin" class="anchor" href="#a-simple-bukkit-chat-notification-plugin" aria-hidden="true"><span class="octicon octicon-link"></span></a><em>A simple Bukkit chat notification plugin</em>
+</h3>
+
+<p>Version 1.0.x compatibable with Bukkit 1.7.10+</p>
+
+<h2>
+<a id="about" class="anchor" href="#about" aria-hidden="true"><span class="octicon octicon-link"></span></a>About</h2>
+
+<p>NotifyUser is a quick-and-easy chat plugin for sending and receiving chat notifications. When a player "tags" another user in the chat area (e.g. "<a href="https://github.com/Andorem" class="user-mention">@Andorem</a>"), the username will become highlighted and the pinged user will receive a customizable alert, from sounds already available in Minecraft.</p>
+
+<p>As a result of a desire for a a bit more customizable ping plugin, NotifyUser has several configuration preferences for choosing different sounds, muting notifications, tagging &amp; pinging options.</p>
+
+<h2>
+<a id="installing" class="anchor" href="#installing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installing</h2>
+
+<p>Though customizable, NotifyUser works out of the box and requires no extra set-up to use. Just drop the Jar file into your server's plugin folder, restart, and you're good to go. Or, if you so wish, tweak the default configuration file. It's up to you!</p>
+
+<h2>
+<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use</h2>
+
+<h3>
+<a id="pinging-a-player" class="anchor" href="#pinging-a-player" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pinging a player</h3>
+
+<p>There are two ways to send notifications to other users, through public chat tagging and a command.</p>
+
+<p>To ping a player from the chat, simply "tag" them with the appropriate symbol: <code>Hey, @TeddyRoosevelt! What's up?</code>. The tagged username will become highlighted and the mentioned user will receive a sound alert. This is not case-sensitive, and it recognizes partial usernames, so <code>@Teddy</code> and <code>@teddyroosevelt</code> work just as well.</p>
+
+<p>If you want to ping a player without making a public mention, you can type <code>/nu [username]</code> without any symbol in order to notify them directly. They will receive a message saying who pinged them and a sound alert (unless disabled). The same name sensitivity as the first method applies.</p>
+
+<h3>
+<a id="muting-notifications" class="anchor" href="#muting-notifications" aria-hidden="true"><span class="octicon octicon-link"></span></a>Muting notifications</h3>
+
+<p>If a player wishes to not receive sound alerts or on-command pings, they can use <code>/nu mute</code>. Text tag-highlighting will still go through, but both sound alerts and pings made through the <code>/nu</code> command will be blocked. This acts as a toggle, and can be turned off by typing <code>/nu mute</code> again.</p>
+
+<h2>
+<a id="commands" class="anchor" href="#commands" aria-hidden="true"><span class="octicon octicon-link"></span></a>Commands</h2>
+
+<p>All commands can also be executed with <strong>/notifyuser</strong> and <strong>/nfy</strong>.</p>
+
+<h3>
+<a id="general-commands" class="anchor" href="#general-commands" aria-hidden="true"><span class="octicon octicon-link"></span></a>General commands:</h3>
+
+<ul>
+<li>
+<strong>/nu [username]</strong> - Send a notification to a specific user without typing into public chat.</li>
+<li>
+<strong>/nu help</strong> - Show all available NotifyUser commands.</li>
+<li>
+<strong>/nu mute</strong> - Toggle mute/unmute for incoming notifications.</li>
+</ul>
+
+<h3>
+<a id="admin-commands" class="anchor" href="#admin-commands" aria-hidden="true"><span class="octicon octicon-link"></span></a>Admin commands:</h3>
+
+<ul>
+<li>
+<strong>/nu set [SOUND_NAME]</strong> - Set the notification sound to be heard by all players. (Refer to <a href="http://jd.bukkit.org/org/bukkit/Sound.html">http://jd.bukkit.org/org/bukkit/Sound.html</a>)</li>
+<li>
+<strong>/nu reload</strong> - Reloads the NotifyUser configuration file.</li>
+</ul>
+
+<h2>
+<a id="permissions" class="anchor" href="#permissions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Permissions</h2>
+
+<ul>
+<li>
+<strong>NotifyUser.</strong>* - Gives access to all NotifyUser commands. (default: op)</li>
+<li>
+<strong>NotifyUser.player.</strong>* - Gives access to all standard player permissions.</li>
+<li>
+<strong>NotifyUser.player.send</strong> - Allows a player to send in-chat and sound notifications. (default: true)</li>
+<li>
+<strong>NotifyUser.player.receive</strong> - Allows a player to receive in-chat and sound notifications. (default: true)</li>
+<li>
+<strong>NotifyUser.player.mute</strong> - Allows a player to mute any incoming notification sounds. (default: true)</li>
+<li>
+<strong>NotifyUser.admin.</strong>* - Gives access to all admin permissions.</li>
+<li>
+<strong>NotifyUser.admin.set</strong> - Allows you to set the notification sound for all players. (default: op)</li>
+<li>
+<strong>NotifyUser.admin.reload</strong> - Allows you to use the reload command to update the config. (default: op)</li>
+</ul>
+
+<h2>
+<a id="configyml" class="anchor" href="#configyml" aria-hidden="true"><span class="octicon octicon-link"></span></a>Config.yml</h2>
+
+<ul>
+<li>config.yml - Configuration preferences for chat and command ping.</li>
+<li><p>muted.dat - Record of all players that have muted their notifications.</p></li>
+<li>
+<p>notifications:</p>
+
+<ul>
+<li>sound-effect: 
+
+<ul>
+<li>Name (all caps) of the sound to play when pinged.</li>
+<li>(Refer to <a href="http://jd.bukkit.org/org/bukkit/Sound.html">Bukkit's list of sounds</a>.)</li>
+</ul>
+</li>
+<li>volume
+
+<ul>
+<li>Volume at which the notification will be heard (100 = loudest).</li>
+</ul>
+</li>
+<li>pitch
+
+<ul>
+<li>Pitch at which the notification will be heard (1 = normal).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>chat:
+
+<ul>
+<li>symbol
+
+<ul>
+<li>Symbol(s) used when typing in chat to ping a user (e.g. @ # *)</li>
+</ul>
+</li>
+<li>highlight-color
+
+<ul>
+<li>Set the color that tagged names will be highlighted with (e.g. &amp;a, &amp;b, &amp;c...)</li>
+</ul>
+</li>
+<li>min-name-length
+
+<ul>
+<li>One must type at least this many letters to ping another player.</li>
+<li>Only applies when pinging in public chat. Anything below will not  be highlighted or make a ping noise.</li>
+</ul>
+</li>
+<li>notify
+
+<ul>
+<li>True or false. If true, the player pinged by /nu [username] will be told who sent it.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="setting-up" class="anchor" href="#setting-up" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setting up</h2>
+
+<p>There are several optional preferences for customization within the <code>config.yml</code> if you so desire. After editing and saving the file, either restart the server or type <code>/nu reload</code> to update the plugin's settings.</p>
+
+<h3>
+<a id="the-notification-alert" class="anchor" href="#the-notification-alert" aria-hidden="true"><span class="octicon octicon-link"></span></a>The notification alert</h3>
+
+<h4>
+<a id="changing-the-sound" class="anchor" href="#changing-the-sound" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changing the sound</h4>
+
+<p>You can change the sound a player hears when they are pinged with the <code>/nu set [SOUND_NAME]</code> command in-game, or by editing <code>notifications.sound-effect</code> in the config file.</p>
+
+<p>To determine the name of the alert you want, refer to the list of sounds <a href="jd.bukkit.org/org/bukkit/Sound.html">here</a>. Be sure to include any underscores and correct capitalization.</p>
+
+<h4>
+<a id="controlling-volume-and-pitch" class="anchor" href="#controlling-volume-and-pitch" aria-hidden="true"><span class="octicon octicon-link"></span></a>Controlling volume and pitch</h4>
+
+<p>If you want to set how loud or high-pitched the sound is, you can do so by editing <code>notifications.volume</code> and <code>notifications.pitch</code> in the config file, respectively.</p>
+
+<p>The <code>volume</code> determines how loud or quiet the alert noise will be when mentioned or pinged. 100 corresponds to full volume.</p>
+
+<p>The <code>pitch</code> determines how high or low pitched it will sound. 1 represents the noise's normal range of pitch. Feel free to experiment, but it might be best left alone.</p>
+
+<h3>
+<a id="tweak-player-mentions" class="anchor" href="#tweak-player-mentions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tweak player mentions</h3>
+
+<h4>
+<a id="the-tag-handle" class="anchor" href="#the-tag-handle" aria-hidden="true"><span class="octicon octicon-link"></span></a>The tag handle</h4>
+
+<p>The tag handle is the symbol that a player must type right before a username in order to activate the ping mention. If a valid username is tagged, it will become highlighted in the chat area for easy noticing, and a ping will be sent to that player (unless it is muted).</p>
+
+<p>By default, the tag handle is <code>@</code>, however it can be easily changed by editing <code>chat.symbol</code> in the config. Though a single special character is reccomended, the tag handle can be any one string you wish (e.g. <code>&gt;&gt;</code> or <code>Wololo</code>).</p>
+
+<p>You can also change the color that the tagged username will be highlighted by adding an "&amp;" color code in <code>chat.highlight-color</code>.</p>
+
+<h4>
+<a id="choosing-how-pings-work" class="anchor" href="#choosing-how-pings-work" aria-hidden="true"><span class="octicon octicon-link"></span></a>Choosing how pings work</h4>
+
+<p>NotifyUser gives you the option of tweaking how a ping mention will be activated in the main chat or silent commands. You can change the minimum amount of letters of a username that a person must type in order to ping someone with <code>chat.min-num-length</code>. Anything tagged below this number will be ignored, not highlighted, and no alert made.</p>
+
+<p>To determine whether or not an on-command ping will alert the recipient or not, change <code>chat.notify</code> to false. When true, the command <code>/nu [username]</code> will send both a sound alert and silent message `"SENDER has pinged you!" to the user.</p>
+
+<p>[<a href="https://github.com/Andorem/NotifyUser">Source Code</a>]</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">NotifyUser maintained by <a href="https://github.com/Andorem">Andorem</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-70098500-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
