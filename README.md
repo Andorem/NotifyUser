@@ -6,7 +6,7 @@ Version 1.0.x compatibable with Bukkit 1.7.10+
 
 NotifyUser is a quick-and-easy chat plugin for sending and receiving chat notifications. When a player "tags" another user in the chat area (e.g. "@Andorem"), the username will become highlighted and the pinged user will receive a customizable alert, from sounds already available in Minecraft.
 
- As a result of a desire for a a bit more customizable ping plugin, UserNotify has several configuration preferences for choosing different sounds, muting notifications, tagging & pinging options.
+ As a result of a desire for a a bit more customizable ping plugin, NotifyUser has several configuration preferences for choosing different sounds, muting notifications, tagging & pinging options.
 
 ## Installing
 
