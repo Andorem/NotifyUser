@@ -94,7 +94,7 @@ If you want to set how loud or high-pitched the sound is, you can do so by editi
 
 The `volume` determines how loud or quiet the alert noise will be when mentioned or pinged. 100 corresponds to full volume.
 
-The `pitch` determines how high or low pitched it will sound. 1 represents the noise's normal range of pitch. Feel free to experiment, but it might be best left alone.
+The `pitch` determines how high or low pitched it will sound. 1 represents the noise's normal range of pitch.
 
 ### Tweak player mentions
 
