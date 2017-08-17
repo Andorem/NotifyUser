@@ -1,6 +1,6 @@
 # NotifyUser
 ### *A simple Bukkit chat notification plugin*
-Version 1.0.x compatibable with Bukkit 1.7.10+
+Version 1.1.x compatible with Bukkit 1.9+; Version 1.0.x compatibable with Bukkit 1.7.10-1.8.x
 
 ## About
 
