@@ -1,7 +1,7 @@
 name: NotifyUser
 author: Nexamor
-main: io.github.andorem.notifyuser.NotifyUser
-version: 1.0.5
+main: com.minuxe.notifyuser.NotifyUser
+version: 1.1.4
 description: Send and receive in-chat and sound notifications to other players.
 
 commands:
@@ -25,6 +25,7 @@ permissions:
        NotifyUser.player.send: true
        NotifyUser.player.receive: true
        NotifyUser.player.mute: true
+       NotifyUser.player.highlight: true
    NotifyUser.player.send:
      description: Allows a player to send in-chat and sound notifications.
      default: true
@@ -33,6 +34,9 @@ permissions:
      default: true
    NotifyUser.player.mute:
      description: Allows a player to mute any incoming notification sounds.
+     default: true
+   NotifyUser.player.highlight:
+     description: Allows a player to see their name highlighted in chat when pinged.
      default: true
    NotifyUser.admin.*:
      description: Gives access to all admin permissions.
@@ -45,3 +49,25 @@ permissions:
    NotifyUser.admin.reload:
      description: Allows you to use the reload command to update the config.
      default: op
+   NotifyUser.override.*:
+     description: Gives access to all overriding permissions.
+     children:
+       NotifyUser.override.notify: true
+       NotifyUser.override.highlightall: true
+   NotifyUser.override.notify:
+     description: Always receive silent notification alerts regardless of 'notify' option in config.
+     default: false
+   NotifyUser.override.highlightall:
+     description: Always highlight all in-chat notifications regardless of 'highlight-all' option in config.
+     default: false
+   NotifyUser.anonymous.*:
+     description: Gives access to all anonymous permissions.
+     children:
+       NotifyUser.anonymous.send: true
+       NotifyUser.anonymous.receive: true
+   NotifyUser.anonymous.send:
+     description: Always send silent notifications without revealing your username.
+     default: false
+   NotifyUser.anonymous.receive:
+     description: Always see the username of anyone who sends you a silent notification (takes precedence over NotifyUser.anonymous.sender)
+     default: false
