@@ -41,14 +41,8 @@ public class NotifyUser extends JavaPlugin {
    public void onEnable() {
       DATA_FOLDER = getDataFolder();
 
-      /*
-       * try { if(!DATA_FOLDER.exists()) { DATA_FOLDER.mkdir(); }
-       * 
-       * configHandler.ensureConfigExists(); configHandler.updateConfig(); }
-       * catch (Exception e) { e.printStackTrace();
-       * 
-       * }
-       */
+       try { if(!DATA_FOLDER.exists()) { DATA_FOLDER.mkdir();} }
+       catch (Exception e) { e.printStackTrace();}
 
       notification = new Notification(this);
       chatListener = new ChatListener(notification, this);

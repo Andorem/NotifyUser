@@ -24,10 +24,11 @@ public class Notification {
    boolean muteSound;
    String muteHighlight;
    String muteType;
-   String mutePath = NotifyUser.DATA_FOLDER + File.separator + "muted.dat";
+   String mutePath;
 
    public Notification(NotifyUser plugin) {
       this.plugin = plugin;
+      mutePath = NotifyUser.DATA_FOLDER + File.separator + "muted.dat";
       File file = new File(mutePath);
       if (file.exists()) {
          hasMuted = (ArrayList<UUID>) loadData(mutePath);

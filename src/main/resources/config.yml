@@ -1,7 +1,7 @@
 # [Configuration file for NotifyUser] (For message {placeholders}, see dev.bukkkit.org/projects/notifyuser)
 
 notifications:
-  sound-effect: BLOCK_NOTE_PLNG
+  sound-effect: BLOCK_NOTE_PLING
   volume: 1.0
   pitch: 2
 chat:
