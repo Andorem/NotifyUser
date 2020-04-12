@@ -1,6 +1,12 @@
 # NotifyUser
 ### *A simple Bukkit chat notification plugin*
-Version 1.1.x compatible with Bukkit 1.9+; Version 1.0.x compatibable with Bukkit 1.7.10-1.8.x
+* **1.13-1.15.2:** Compatible with NotifyUser versions 1.2.x.
+* **1.9-1.12.x:** Compatible with NotifyUser versions 1.1.x.
+* **1.7.10-1.8.x:** Compatible with NotifyUser versions 1.0.x.
+
+##### Note on 1.13+
+Due to client changes in Minecraft clients for v1.13 and above, the tab complete functionality is unfortunately no longer supported.
+This feature is still available, of course, with the built in tab completion for the `/nu [name]` command.
 
 ## About
 

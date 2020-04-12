@@ -1,0 +1,17 @@
+player:
+  send:
+    usage: '/nu [username]'
+    description: Send a notification to a specific user without typing into public chat.
+  help:
+    usage: '/nu help'
+    description: Show this help message.
+  mute:
+    usage: '/nu mute'
+    description: Toggle mute/unmute for incoming notifications.
+admin:
+  set:
+    usage: '/nu set [SOUND_NAME]'
+    description: Set the notification sound to be heard by all players. Refer to https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
+  reload:
+    usage: '/nu reload'
+    description: Reload the plugin configuration file.

@@ -2,9 +2,17 @@ package com.minuxe.notifyuser;
 
 import java.io.File;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.minuxe.notifyuser.handlers.ConfigurationHandler;
+import com.minuxe.notifyuser.hooks.HookManager;
+import com.minuxe.notifyuser.listeners.ChatListener;
+import com.minuxe.notifyuser.notifications.ChatNotification;
+import com.minuxe.notifyuser.notifications.Notification;
+import com.minuxe.notifyuser.notifications.SoundNotification;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -17,16 +25,18 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class NotifyUser extends JavaPlugin {
 
    public static File DATA_FOLDER;
-   Logger log = getLogger();
+   static Logger log;
    FileConfiguration commandConfig = YamlConfiguration.loadConfiguration(getTextResource("commands.yml"));
 
    Notification notification;
    ChatListener chatListener;
-   ConfigurationHandler configH;
+   ConfigurationHandler configHandler;
+   HookManager hookManager;
 
    boolean sendPingNotification;
    boolean isAnonymous;
-   // boolean debugEnabled = false;
+   static boolean debugEnabled;
+   static boolean isServerRunningPaper;
 
    String notificationType;
    String[] placeholders = { "sender", "receiver", "min", "toggle" };
@@ -40,28 +50,30 @@ public class NotifyUser extends JavaPlugin {
    @Override
    public void onEnable() {
       DATA_FOLDER = getDataFolder();
+      log = getLogger();
 
        try { if(!DATA_FOLDER.exists()) { DATA_FOLDER.mkdir();} }
        catch (Exception e) { e.printStackTrace();}
 
       notification = new Notification(this);
-      chatListener = new ChatListener(notification, this);
-      configH = new ConfigurationHandler(this, DATA_FOLDER);
+      chatListener = new ChatListener(this);
+      configHandler = new ConfigurationHandler(this, DATA_FOLDER);
 
-      configH.setupConfig();
+      configHandler.setupConfig();
       setValues();
 
-      // loadFromConfig();
-
-      // debugEnabled = getConfig().getBoolean("debug");
-      // debug("==========================================================");
-      // debug("Debug mode activated. Now reporting to console.");
-      // debug("To disable debugging, set 'debug' in 'config.yml' to false.");
-      // debug("==========================================================");
+       debugEnabled = getConfig().getBoolean("debug");
+       debug("=====================================================");
+       debug("Debug mode activated. Now reporting to console.");
+       debug("To disable debugging, set 'debug' in 'config.yml' to false.");
+       debug("=====================================================");
 
       getServer().getPluginManager().registerEvents(chatListener, this);
-      // debug("Chat Listener enabled.");
 
+      isServerRunningPaper = checkIfRunningPaper();
+      debug("Server " + (isServerRunningPaper ? "is" : "is not") + " running Paper.");
+
+      hookManager = new HookManager(this);
    }
 
    @Override
@@ -76,13 +88,16 @@ public class NotifyUser extends JavaPlugin {
       Player pSender = (senderIsPlayer ? (Player) sender : null);
       String senderName = sender.getName();
 
+      noPermission = parseMessage(placeholders, configHandler.getString("messages.errors.no-perm"),
+              senderName, senderName, Notification.isMutedFor(pSender));
+
       if (cmd.getName().equalsIgnoreCase("nu")) {
          if ((args.length < 1) || (args.length == 1 && args[0].equalsIgnoreCase("help"))) {
             sender.sendMessage(chatHeader);
             if (sender.hasPermission("NotifyUser.player.send")) {
                sender.sendMessage(ChatColor.WHITE
                      + "To ping a player, type @ and their username into the chat. This is not case-sensitive.\n"
-                     + "You must type at least " + ChatColor.RED + chatListener.getMinNameLen() + ChatColor.WHITE
+                     + "You must type at least " + ChatColor.RED + ChatNotification.getMinNameLengthRequired() + ChatColor.WHITE
                      + " characters of the username in order to ping them. \n" + ChatColor.GOLD
                      + "E.g. To ping MaryAnn32, type @MaryAnn32, @MaryAnn, or @mary.\n");
             }
@@ -98,14 +113,9 @@ public class NotifyUser extends JavaPlugin {
                   if (!senderIsPlayer) {
                      sender.sendMessage("You must be a player to use that command.");
                   } else {
-                     notification.toggleMute(pSender);
-                     // debug("Notifications " + ( isMuted ? "un" : "") + "muted
-                     // for " + pSender.getName());
-                     // configH.getString("messages.mute-toggle")));
-                     // pSender.sendMessage("Incoming notifications are now " +
-                     // (isMuted ? "un" : "") + "muted.");
-                     sender.sendMessage(parseMessage(placeholders, configH.getString("messages.mute.toggle"),
-                           senderName, senderName, chatListener.getMinNameLen(), notification.isMutedFor(pSender)));
+                     Notification.toggleMute(pSender);
+                     sender.sendMessage(parseMessage(placeholders, configHandler.getString("messages.mute.toggle"),
+                           senderName, senderName, Notification.isMutedFor(pSender)));
                   }
                } else {
                   sender.sendMessage(noPermission);
@@ -115,18 +125,10 @@ public class NotifyUser extends JavaPlugin {
 
             else if (args[0].equalsIgnoreCase("reload")) {
                if (sender.hasPermission("NotifyUser.admin.reload")) {
-                  /*
-                   * ensureConfigExists(); if (isConfigurationValid(new
-                   * File(DATA_FOLDER, "config.yml"))) { reloadConfig();
-                   * updateConfig(); loadFromConfig();
-                   * sender.sendMessage(ChatColor.GREEN + "Config reloaded."); }
-                   * else { sender.sendMessage(ChatColor.RED + "Error: " +
-                   * ChatColor.DARK_RED +
-                   * "Failed to reload config. (Is it formatted correctly?)"); }
-                   */
-                  boolean reloadedSuccessfully = configH.reloadConfig();
+                  boolean reloadedSuccessfully = configHandler.reloadConfig();
                   if (reloadedSuccessfully) {
                      setValues();
+                     hookManager.enableHooks();
                      sender.sendMessage(ChatColor.GREEN + "Config reloaded.");
                      return true;
                   } else {
@@ -145,7 +147,7 @@ public class NotifyUser extends JavaPlugin {
                   String receiverName = (receiver == null ? null : receiver.getName());
 
                   String fmt = "";
-                  if (args[0].length() < chatListener.getMinNameLen())
+                  if (args[0].length() < ChatNotification.getMinNameLengthRequired())
                      fmt = "errors.not-min";
                   else if (receiverName == null) {
                      fmt = "errors.not-found";
@@ -157,26 +159,9 @@ public class NotifyUser extends JavaPlugin {
                      fmt = "ping.from";
                      ping(sender, receiver);
                   }
-                  sender.sendMessage(parseMessage(placeholders, configH.getString("messages." + fmt), senderName,
-                        receiverName, chatListener.getMinNameLen(), notification.isMutedFor(receiver)));
+                  sender.sendMessage(parseMessage(placeholders, configHandler.getString("messages." + fmt), senderName,
+                        receiverName, notification.isMutedFor(receiver)));
                   return true;
-                  // sender.sendMessage(ChatColor.RED + "You must type at least
-                  // " + chatListener.getMinNameLen() + " characters to ping!");
-                  // sender.sendMessage(parseMessage(placeholders,
-                  // configH.getString("messages.not-min")));
-                  /*
-                   * } else if (receiver == null) {
-                   * //sender.sendMessage(ChatColor.RED + "Error: " +
-                   * ChatColor.DARK_RED + "Player not found.");
-                   * sender.sendMessage(parseMessage(placeholders,
-                   * configH.getString("messages.not-found"))); } else if
-                   * (notification.isMutedFor(receiver.getUniqueId())) {
-                   * //sender.sendMessage(ChatColor.RED + receiver.getName() +
-                   * " has muted notifications.");
-                   * sender.sendMessage(parseMessage(placeholders,
-                   * configH.getString("messages.mute-alert"))); }
-                   */
-
                } else {
                   sender.sendMessage(noPermission);
                }
@@ -185,9 +170,9 @@ public class NotifyUser extends JavaPlugin {
          } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("set")) {
                if (sender.hasPermission("NotifyUser.admin.set")) {
-                  if (notification.setSound(args[1].toUpperCase(), sender)) {
-                     configH.set("notifications.sound-effect", args[1].toUpperCase());
-                     configH.saveConfig();
+                  if (SoundNotification.setSound(args[1].toUpperCase(), sender)) {
+                     configHandler.set("notifications.sound-effect", args[1].toUpperCase());
+                     configHandler.saveConfig();
                   }
                } else {
                   sender.sendMessage(noPermission);
@@ -200,34 +185,23 @@ public class NotifyUser extends JavaPlugin {
    }
 
    private void ping(CommandSender sender, Player receiver) {
-      notification.toPlayer(receiver);
-      // sender.sendMessage("Notification sent to " +
-      // receiver.getName() + ".");
-      // sender.sendMessage(parseMessage(placeholders,
-      // configH.getString("messages.ping-from")));
+      (new SoundNotification(receiver)).send();
       if (sendPingNotification || receiver.hasPermission("NotifyUser.override.notify")) {
-         // receiver.sendMessage(ChatColor.GREEN +
-         // (senderIsPlayer ? sender.getName() : "The server") +
-         // " has pinged you!");
-         // String displayedSender = (isAnonymous ? "Someone" : ((sender ==
-         // null) ? "The server" : receiver.getName()
          boolean thisAnonymous = (receiver.hasPermission("NotifyUser.anonymous.receive") ? false :
             (sender.hasPermission("NotifyUser.anonymous.send") ? true : isAnonymous));
-         String format = configH.getString("messages.ping." + (thisAnonymous ? "anon" : "to"));
-         receiver.sendMessage(parseMessage(placeholders, format, sender.getName(), receiver.getName(),
-               chatListener.getMinNameLen(), notification.isMutedFor(receiver)));
+         String format = configHandler.getString("messages.ping." + (thisAnonymous ? "anon" : "to"));
+         receiver.sendMessage(parseMessage(placeholders, format, sender.getName(), receiver.getName(), Notification.isMutedFor(receiver)));
       }
    }
 
    private void setValues() {
-      // FileConfiguration config = getConfig();
-      notificationType = configH.getString("chat.notify");
-      sendPingNotification = (notificationType.equals("false") ? false : true);
-      isAnonymous = (notificationType.equals("anonymous") ? true : false);
-      noPermission = configH.getString("messages.no-perm");
+      notificationType = configHandler.getString("chat.notify");
+      sendPingNotification = (!notificationType.equals("false"));
+      isAnonymous = (notificationType.equals("anonymous"));
+      noPermission =  translateFormat(configHandler.getString("messages.errors.no-perm"));
       // debugEnabled = config.getBoolean("debug");
-      notification.setValues(configH.getConfig());
-      chatListener.setValues(configH.getConfig());
+      SoundNotification.setValues(configHandler);
+      ChatNotification.setValues(configHandler);
    }
 
    /*
@@ -299,7 +273,7 @@ public class NotifyUser extends JavaPlugin {
          ConfigurationSection groupSection = config.getConfigurationSection(groupName);
          Set<String> groupSectionNames = groupSection.getKeys(false);
          String groupHeader = ChatColor.RED + StringUtils.capitalize(groupName) + " Commands: \n";
-         String groupCommands = groupHeader;
+         String groupCommands = "";
 
          for (String sectionName : groupSectionNames) {
             if (sender.hasPermission("NotifyUser." + groupName + "." + sectionName) || sectionName == "help") {
@@ -318,7 +292,10 @@ public class NotifyUser extends JavaPlugin {
                groupCommands += helpCommand;
             }
          }
-         helpCommands += groupCommands;
+         debug("groupCommands = " + groupCommands);
+         if (!groupCommands.isEmpty()) {
+            helpCommands += groupHeader + groupCommands;
+         }
       }
       return helpCommands;
    }
@@ -328,8 +305,8 @@ public class NotifyUser extends JavaPlugin {
       return newFmt;
    }
 
-   private String parseMessage(String[] placeholders, String messageFormat, String senderName, String receiverName,
-         int min, boolean isMuted) {
+   private String parseMessage(String[] placeholders, String messageFormat, String senderName, String receiverName, boolean isMuted) {
+      int min = ChatNotification.getMinNameLengthRequired();
       String message = translateFormat(messageFormat);
       for (String label : placeholders) {
          String placeholder = "\\{(?i)" + label + "\\}";
@@ -353,12 +330,57 @@ public class NotifyUser extends JavaPlugin {
       return message;
    }
 
-   /*
-    * void debug(String debugMessage, String levelName) { Level level =
-    * Level.parse(levelName.toUpperCase()); if (debugEnabled) { log.log(level,
-    * "[DEBUG] " + debugMessage); } }
-    * 
-    * void debug(String debugMessage) { if (debugEnabled) { log.log(Level.INFO,
-    * "[DEBUG] " + debugMessage); } }
-    */
+   public ConfigurationHandler getConfigHandler() {
+      return this.configHandler;
+   }
+
+   // Server Version check provided by @Zombie_Striker
+   private static final String SERVER_VERSION;
+   static {
+      String name = Bukkit.getServer().getClass().getName();
+      name = name.substring(name.indexOf("craftbukkit.") + "craftbukkit.".length());
+      name = name.substring(0, name.indexOf("."));
+      SERVER_VERSION = name;
+   }
+
+   public static boolean isVersionHigherThan(int mainVersion, int secondVersion) {
+      String firstChar = SERVER_VERSION.substring(1, 2);
+      int fInt = Integer.parseInt(firstChar);
+      if (fInt < mainVersion)
+         return false;
+      StringBuilder secondChar = new StringBuilder();
+      for (int i = 3; i < 10; i++) {
+         if (SERVER_VERSION.charAt(i) == '_' || SERVER_VERSION.charAt(i) == '.')
+            break;
+         secondChar.append(SERVER_VERSION.charAt(i));
+      }
+
+      int sInt = Integer.parseInt(secondChar.toString());
+      if (sInt <= secondVersion)
+         return false;
+      return true;
+   }
+
+   public static boolean checkIfRunningPaper() {
+      try {
+         boolean getPaper = Class.forName("com.destroystokyo.paper.VersionHistoryManager$VersionData") != null;
+         return true;
+      }
+      catch (ClassNotFoundException e) {
+         return false;
+      }
+   }
+
+    public static void log(String message, String levelName) {
+       Level level;
+       try {
+          level = Level.parse(levelName.toUpperCase());
+       } catch (IllegalArgumentException e) {
+          level = Level.INFO;
+       }
+       log.log(level, message);
+    }
+
+    public static void debug(String debugMessage) { if (debugEnabled) { log.log(Level.INFO,
+    "[DEBUG] " + debugMessage); } }
 }

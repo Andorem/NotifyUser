@@ -2,7 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.minuxe</groupId>
   <artifactId>NotifyUser</artifactId>
-  <version>1.1.5</version>
+  <version>1.1.7</version>
+  <packaging>jar</packaging>
   <build>
      <resources>
       <resource>
@@ -13,25 +14,17 @@
          <include>*.txt</include>
         </includes>
       </resource>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>false</filtering>
-        <excludes>
-         <exclude>*.yml</exclude>
-         <exclude>*.txt</exclude>
-        </excludes>
-      </resource>
      </resources>
   
    <plugins>
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
-            <version>2.0.2</version>
-            <configuration>
-               <source>1.7</source>
-               <target>1.7</target>
-            </configuration>
+             <version>3.7.0</version>
+             <configuration>
+                 <source>1.8</source>
+                 <target>1.8</target>
+             </configuration>
          </plugin>
    </plugins>
   </build>
@@ -40,6 +33,19 @@
         <id>spigot-repo</id>
         <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
     </repository>
+      <repository>
+          <id>papermc</id>
+          <url>https://papermc.io/repo/repository/maven-public/</url>
+      </repository>
+      <repository>
+          <id>sonatype.snapshots</id>
+          <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+      </repository>
+          <repository>
+              <id>jitpack.io</id>
+              <url>https://jitpack.io</url>
+          </repository>
+
    </repositories>
   
   <dependencies>
@@ -47,9 +53,22 @@
     <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.12-R0.1-SNAPSHOT</version>
+            <version>1.13-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
     </dependency>
+  <!--Paper API-->
+      <dependency>
+          <groupId>com.destroystokyo.paper</groupId>
+          <artifactId>paper-api</artifactId>
+          <version>1.15.2-R0.1-SNAPSHOT</version>
+          <scope>provided</scope>
+      </dependency>
+  <!--SaberFactions-->
+      <dependency>
+          <groupId>com.github.SaberLLC</groupId>
+          <artifactId>Saber-Factions</artifactId>
+          <version>2.3.3-STABLE</version>
+      </dependency>
   </dependencies>
   <properties>
    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

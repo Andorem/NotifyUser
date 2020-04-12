@@ -1,4 +1,4 @@
-package com.minuxe.notifyuser;
+package com.minuxe.notifyuser.handlers;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,8 +7,10 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
+import com.minuxe.notifyuser.NotifyUser;
 import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -42,19 +44,23 @@ public class ConfigurationHandler {
    }
 
    public void checkConfig() {
+      if (!NotifyUser.isVersionHigherThan(1, 12)) {
+         config.addDefault("notifications.sound-effect", "BLOCK_NOTE_PLING");
+      }
+
       HashMap<String, Object> missingValues = new HashMap<String, Object>();
       missingValues = getMissingDefaults();
 
       if (!missingValues.isEmpty()) {
          plugin.getLogger().warning(
-               "It looks like your config.yml may be out of date.\n" + "Adding the defaults for missing values:");
+                 "It looks like your config.yml may be out of date.\n" + "Adding the defaults for missing values:");
          for (Entry<String, Object> key : missingValues.entrySet()) {
             plugin.getLogger().warning("  - " + key.getKey());
             plugin.getConfig().set(key.getKey(), key.getValue());
          }
          plugin.saveConfig();
          plugin.getLogger().info("Your config.yml should now be fixed and updated.\n"
-               + "If it is not, try deleting it then generate a new one with /NotifyUser reload.");
+                 + "If it is not, try deleting it then generate a new one with /NotifyUser reload.");
       }
    }
 
@@ -124,5 +130,25 @@ public class ConfigurationHandler {
 
    public FileConfiguration getConfig() {
       return plugin.getConfig();
+   }
+
+   public ConfigurationSection getHooksConfig() {
+      return plugin.getConfig().getConfigurationSection("hooks");
+   }
+
+   public ConfigurationSection getChatConfig() {
+      return plugin.getConfig().getConfigurationSection("chat");
+   }
+
+   public ConfigurationSection getSoundConfig() {
+      return plugin.getConfig().getConfigurationSection("notifications");
+   }
+
+   public ConfigurationSection getMuteConfig() {
+      return plugin.getConfig().getConfigurationSection("mute");
+   }
+
+   public ConfigurationSection getMessagesConfig() {
+      return plugin.getConfig().getConfigurationSection("messages");
    }
 }
