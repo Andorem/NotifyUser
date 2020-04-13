@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.minuxe</groupId>
   <artifactId>NotifyUser</artifactId>
-  <version>1.1.7</version>
+  <version>1.1.8</version>
   <packaging>jar</packaging>
   <build>
      <resources>
@@ -42,6 +42,10 @@
           <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
       </repository>
           <repository>
+              <id>factionsuuid-repo</id>
+              <url>http://ci.ender.zone/plugin/repository/everything/</url>
+          </repository>
+          <repository>
               <id>jitpack.io</id>
               <url>https://jitpack.io</url>
           </repository>
@@ -61,6 +65,13 @@
           <groupId>com.destroystokyo.paper</groupId>
           <artifactId>paper-api</artifactId>
           <version>1.15.2-R0.1-SNAPSHOT</version>
+          <scope>provided</scope>
+      </dependency>
+  <!--FactionsUUID-->
+      <dependency>
+          <groupId>com.massivecraft</groupId>
+          <artifactId>Factions</artifactId>
+          <version>1.6.9.5-U0.5.10</version>
           <scope>provided</scope>
       </dependency>
   <!--SaberFactions-->

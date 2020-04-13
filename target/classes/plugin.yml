@@ -1,9 +1,10 @@
 name: NotifyUser
 author: Nexamor
 main: com.minuxe.notifyuser.NotifyUser
-version: 1.1.7
+version: 1.1.8
 api-version: 1.13
 description: Send and receive in-chat and sound notifications to other players.
+softdepend: [Factions]
 
 commands:
    nu:
@@ -22,6 +23,7 @@ permissions:
        NotifyUser.admin.*: true
    NotifyUser.player.*: 
      description: Gives access to all standard player permissions.
+     default: true
      children:
        NotifyUser.player.send: true
        NotifyUser.player.receive: true
@@ -44,6 +46,7 @@ permissions:
      children:
        NotifyUser.admin.set: true
        NotifyUser.admin.reload: true
+     default: op
    NotifyUser.admin.set:
      description: Allows you to set the notification sound for all players.
      default: op
@@ -55,6 +58,7 @@ permissions:
      children:
        NotifyUser.override.notify: true
        NotifyUser.override.highlightall: true
+     default: false
    NotifyUser.override.notify:
      description: Always receive silent notification alerts regardless of 'notify' option in config.
      default: false
@@ -66,6 +70,7 @@ permissions:
      children:
        NotifyUser.anonymous.send: true
        NotifyUser.anonymous.receive: true
+     default: false
    NotifyUser.anonymous.send:
      description: Always send silent notifications without revealing your username.
      default: false

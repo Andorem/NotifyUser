@@ -54,12 +54,15 @@ public class ChatListener implements Listener {
       }
    }
 
-   @EventHandler(priority = EventPriority.HIGHEST)
+   @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
    private final void onChat(AsyncPlayerChatEvent e) {
+      NotifyUser.debug("ChatListener high priority called");
       Player thisPlayer = e.getPlayer();
       if (ChatNotification.canSend(thisPlayer, e.getMessage())) {
-         String messageColor = ChatColor.getLastColors(e.getMessage());
-         (new ChatNotification(thisPlayer, e, messageColor)).send();
+         String messageColor = ChatColor.getLastColors(e.getFormat());
+         ChatNotification chatNotification = new ChatNotification(thisPlayer, e, messageColor, e.getRecipients());
+         chatNotification.send();
+//         if (notifyAll) e.setMessage(chatNotification.getMessage());
       }
    }
 

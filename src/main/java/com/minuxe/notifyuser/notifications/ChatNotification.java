@@ -5,38 +5,48 @@ import com.minuxe.notifyuser.handlers.ConfigurationHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.*;
 
 public class ChatNotification {
-    Player sender;
-    AsyncPlayerChatEvent chatEvent;
-    String messageColor;
-    ArrayList<String> receivers = new ArrayList<>();
-    String messageWithAllReceiversHighlighted;
+    private Player sender;
+    private String message;
+    private String format;
+    private String messageColor;
+    private final Set<Player> recipients;
+    private ArrayList<String> receivers = new ArrayList<>();
+    private AsyncPlayerChatEvent chatEvent = null;
 
     static String pingSymbol;
     static int minNameLengthRequired;
 
     static String highlightColor, defaultMessageColor;
     static boolean highlightForAll, allowPartial, muteEnabledForHighlight;
-    static String highlightMuteType;
+    protected static String highlightMuteType;
 
-    public ChatNotification(Player sender, AsyncPlayerChatEvent chatEvent, String messageColor) {
+    public ChatNotification(Player sender, String message, String format, String messageColor, Set<Player> recipients) {
+        this.sender = sender;
+        this.messageColor = messageColor;
+        this.recipients = recipients;
+    }
+
+    public ChatNotification(Player sender, AsyncPlayerChatEvent chatEvent, String messageColor, Set<Player> recipients) {
         this.sender = sender;
         this.chatEvent = chatEvent;
+        this.message = chatEvent.getMessage();
+        this.format = chatEvent.getFormat();
         this.messageColor = messageColor;
+        this.recipients = recipients;
     }
 
-    public ChatNotification(Player sender, AsyncPlayerChatEvent chatEvent, ChatColor colorCode) {
-        this(sender, chatEvent, colorCode.toString());
+    public ChatNotification(Player sender, String message, String format, ChatColor colorCode, Set<Player> recipients) {
+        this(sender, message, format, colorCode.toString(), recipients);
     }
 
-    public ChatNotification(Player sender, AsyncPlayerChatEvent chatEvent) {
-        this(sender, chatEvent, ChatNotification.defaultMessageColor);
+    public ChatNotification(Player sender, String message, String format, Set<Player> recipients) {
+        this(sender, message, format, ChatNotification.defaultMessageColor, recipients);
     }
 
     public static boolean canSend(Player sender, String message) {
@@ -44,8 +54,8 @@ public class ChatNotification {
     }
 
     private void parseReceivers() {
-        String[] splitMessage = chatEvent.getMessage().split(" ");
-        NotifyUser.debug("ChatNotification: format = " + chatEvent.getFormat());
+        String[] splitMessage = message.split(" ");
+        NotifyUser.debug("ChatNotification: format = " + format);
         for (int i = 0; i < splitMessage.length; i++) {
             String word = splitMessage[i];
             String wordStripped = ChatColor.stripColor(word);
@@ -77,18 +87,17 @@ public class ChatNotification {
                     word = highlightName(word, receiverName);
                 }
             }
-            messageWithAllReceiversHighlighted += word + " ";
         }
     }
     private boolean containsMoreThanSingleSymbol(String word) {
         return word.startsWith(pingSymbol) && word.length() > (pingSymbol.length() + 1);
     }
 
-    private String getMessageWithHighlights(String receiverName, String message) {
+    protected String getMessageWithHighlights(String receiverName, String message) {
         return highlightName(message, receiverName);
     }
 
-    private String getMessageWithHighlights(String message) {
+    protected String getMessageWithHighlights(String message) {
        String newMessage = message;
         for (String name : receivers) {
            newMessage = highlightName(newMessage, name);
@@ -101,34 +110,42 @@ public class ChatNotification {
                 highlightColor + pingSymbol + name + messageColor);
     }
 
-    public void send() {
+    public boolean send() {
         parseReceivers();
         if (highlightForAll) sendToAll();
         else sendOnlyToReceiversAndOverrides();
+
+        sender.sendMessage("Sending test message with messageColor: \n" + messageColor + "Test");
+        sender.sendMessage("Sending test message with defaultMessageColor: \n" + defaultMessageColor + "Test");
+
+        return highlightForAll;
     }
 
     private void sendToAll() {
-        for (final Player player : chatEvent.getRecipients()) {
-            if (highlightMuteType.equals("all") && !shouldBeHighlightedFor(player)) break;
-            chatEvent.getRecipients().remove(player);
-            String newMessage = getMessageWithHighlights(chatEvent.getMessage());
-            player.sendMessage(String.format(chatEvent.getFormat(), player.getDisplayName(), newMessage));
+        for (final Player player : recipients) {
+            if (highlightMuteType.equals("all") && !shouldBeHighlightedFor(player)) continue; // player has all chat notifications muted and/or no highlight permissions
+
+            message = getMessageWithHighlights(message);
+            if (!(chatEvent == null)) chatEvent.setMessage(message);
+            if (isReceiver(player)) playSound(player);
         }
     }
-    {
+
+    private void sendOnlyToReceiversAndOverrides() {
         for (final Player player : Bukkit.getOnlinePlayers()) {
-            if (shouldBeHighlightedFor(player)) {
-                String newMessage = getMessageWithHighlights(player.getName(), chatEvent.getMessage());
+            if (!shouldBeHighlightedFor(player)) continue;
 
-                if (!SoundNotification.isMutedFor(player) && chatEvent.getRecipients().contains(player)) {
-                    (new SoundNotification(player)).send();
-                }
+            recipients.remove(player);
+            String newMessage = getMessageWithHighlights(player.getName(), message);
+            player.sendMessage(String.format(format, sender.getDisplayName(), newMessage));
 
-                chatEvent.setMessage(newMessage);
-                player.sendMessage("Sending test highlightForAll message: \n" + messageWithAllReceiversHighlighted);
-                player.sendMessage("Sending test message with messageColor: \n" + messageColor + "Test");
-                player.sendMessage("Sending test message with defaultMessageColor: \n" + defaultMessageColor + "Test");
-            }
+            if (isReceiver(player)) playSound(player);
+        }
+    }
+
+    protected void playSound(Player player) {
+        if (!SoundNotification.isMutedFor(player)) {
+            (new SoundNotification(player)).send();
         }
     }
 
@@ -138,9 +155,9 @@ public class ChatNotification {
         return (allowPartial ? firstLower.startsWith(secondLower) : firstLower.equals(secondLower));
     }
 
-    private boolean isReceiver(Player player) {
+    protected boolean isReceiver(Player player) {
         if (!player.hasPermission("NotifyUser.player.receive")) return false;
-        String playerName = player.getName();
+        String playerName = player.getName().toLowerCase();
         if (receivers.contains(playerName)) return true;
         else if (allowPartial) {
             for (String receiverName : receivers) {
@@ -167,8 +184,10 @@ public class ChatNotification {
                 || player.hasPermission("NotifyUser.player.highlight");
     }
 
-    private boolean shouldBeHighlightedFor(Player player) {
-        return !isMutedFor(player) && hasHighlightPermission(player) && isReceiver(player);
+    protected boolean shouldBeHighlightedFor(Player player) {
+        boolean notMutedAndHasPermissions = !isMutedFor(player) && hasHighlightPermission(player);
+        if (highlightForAll) return notMutedAndHasPermissions;       // chat highlights enabled for everyone
+        else return notMutedAndHasPermissions && isReceiver(player); // chat highlights only enabled for the people being tagged (or has override)
     }
 
     private static boolean isMutedFor(Player player) {
@@ -198,5 +217,53 @@ public class ChatNotification {
 
     public static int getMinNameLengthRequired() {
         return minNameLengthRequired;
+    }
+
+    protected Player getSender() {
+        return sender;
+    }
+
+    protected String getMessageColor() {
+        return messageColor;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    protected ArrayList<String> getReceivers() {
+        return receivers;
+    }
+
+    protected static String getPingSymbol() {
+        return pingSymbol;
+    }
+
+    protected static String getHighlightColor() {
+        return highlightColor;
+    }
+
+    protected static String getDefaultMessageColor() {
+        return defaultMessageColor;
+    }
+
+    protected static boolean isHighlightedForAll() {
+        return highlightForAll;
+    }
+
+    public static boolean isAllowPartial() {
+        return allowPartial;
+    }
+
+    public static boolean isMuteEnabledForHighlight() {
+        return muteEnabledForHighlight;
+    }
+
+    public static String getHighlightMuteType() {
+        return highlightMuteType;
     }
 }

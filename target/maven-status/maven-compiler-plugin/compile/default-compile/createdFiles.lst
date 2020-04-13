@@ -1,4 +1,6 @@
+com\minuxe\notifyuser\hooks\factions\FactionsChatEvent$1.class
 com\minuxe\notifyuser\hooks\HookManager.class
+com\minuxe\notifyuser\hooks\factions\FactionsChatNotification.class
 com\minuxe\notifyuser\NotifyUser.class
 com\minuxe\notifyuser\handlers\DataHandler.class
 com\minuxe\notifyuser\handlers\ConfigurationHandler.class
@@ -8,4 +10,5 @@ com\minuxe\notifyuser\notifications\ChatNotification.class
 com\minuxe\notifyuser\hooks\factions\FactionsChatListener.class
 com\minuxe\notifyuser\hooks\Hook.class
 com\minuxe\notifyuser\notifications\SoundNotification.class
+com\minuxe\notifyuser\hooks\factions\FactionsChatEvent.class
 com\minuxe\notifyuser\hooks\factions\FactionsHook.class

@@ -5,12 +5,16 @@ import com.massivecraft.factions.FPlayers;
 import com.massivecraft.factions.struct.ChatMode;
 import com.minuxe.notifyuser.NotifyUser;
 import com.minuxe.notifyuser.notifications.ChatNotification;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventException;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+
+import java.util.Set;
 
 public class FactionsChatListener implements Listener {
     FactionsHook hook;
@@ -20,30 +24,35 @@ public class FactionsChatListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    private final void onFactionChat(AsyncPlayerChatEvent e) {
-        Player thisPlayer = e.getPlayer();
-        if (isInFactionChat(thisPlayer)) {
-            NotifyUser.debug("FactionsChatListener: " + thisPlayer.getName() + " is in faction chat.");
-            if (ChatNotification.canSend(thisPlayer, e.getMessage())) {
-                NotifyUser.debug("FactionsChatListener: " + thisPlayer.getName() + " initializing chat notification. ");
-                (new ChatNotification(thisPlayer, e, ChatColor.WHITE)).send();
+    private final void onChat(AsyncPlayerChatEvent e) {
+        NotifyUser.debug("FactionsChatListener low priority called");
+        if (FactionsHook.isInFactionsChat(e.getPlayer()) && ChatNotification.canSend(e.getPlayer(), e.getMessage())) {
+            try {
+                Bukkit.getPluginManager().callEvent(new FactionsChatEvent(e.getPlayer(),
+                        e.getMessage(), e.getFormat()));
+            } catch (EventException ex) {
+                NotifyUser.log("ERROR: Could not invoke FactionsChatEvent. Is Factions hooked and enabled?", "WARNING");
+                ex.printStackTrace();
             }
+            e.setCancelled(true);
         }
     }
 
-    private boolean isInFactionChat(Player player) {
-        switch (hook.getPluginName()) {
-            case "Factions":
-                return isInFactionChat_Factions(player);
-            default:
-                return false;
-        }
+    @EventHandler(priority = EventPriority.NORMAL)
+    private final void onFactionChat(FactionsChatEvent e) {
+        NotifyUser.debug("FactionsChatListener normal priority called");
+
+        String messageColor = ChatColor.getLastColors(e.getFormat());
+        FactionsChatNotification chatNotification = new FactionsChatNotification(e, messageColor);
+        chatNotification.send();
+
+
+//        Player thisPlayer = e.getPlayer();
+//        FPlayer factionPlayer = FPlayers.getInstance().getByPlayer(thisPlayer);
+//        if (FactionsChatNotification.canSend(factionPlayer, e.getMessage())) {
+//            NotifyUser.debug("FactionsChatListener: " + thisPlayer.getName() + " initializing chat notification. ");
+//            (new FactionsChatNotification(factionPlayer, e, ChatColor.WHITE)).send();
+//        }
     }
 
-    private boolean isInFactionChat_Factions(Player player) {
-        FPlayer factionPlayer = FPlayers.getInstance().getByPlayer(player);
-        ChatMode chatMode = factionPlayer.getChatMode();
-        NotifyUser.debug("FactionsChatListener: " + player.getName() + " is in chat mode " + chatMode.name());
-        return !(chatMode == ChatMode.PUBLIC);
-    }
 }

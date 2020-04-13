@@ -1,10 +1,14 @@
 package com.minuxe.notifyuser.hooks.factions;
 
+import com.massivecraft.factions.FPlayer;
+import com.massivecraft.factions.FPlayers;
+import com.massivecraft.factions.struct.ChatMode;
 import com.minuxe.notifyuser.NotifyUser;
 import com.minuxe.notifyuser.hooks.Hook;
 import com.minuxe.notifyuser.hooks.HookManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
@@ -56,6 +60,17 @@ public class FactionsHook extends Hook {
     private void setListener() {
         this.listener = new FactionsChatListener(this);
         hm.getPlugin().getServer().getPluginManager().registerEvents(listener, hm.getPlugin());
+    }
+
+    static boolean isInFactionsChat(Player player) {
+        return isInFactionsChat(getFactionsPlayer(player));
+    }
+    static boolean isInFactionsChat(FPlayer fPlayer) {
+        return !(fPlayer.getChatMode() == ChatMode.PUBLIC);
+    }
+
+    static FPlayer getFactionsPlayer(Player player) {
+        return FPlayers.getInstance().getByPlayer(player);
     }
 
 }
