@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e064970e-d4ec-4dd2-899b-ce2fc866e608" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/minuxe/notifyuser/hooks/factions/factionsuuid/FactionsUUIDHook.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_destroystokyo_paper_paper_api_1_15_2_R0_1_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_destroystokyo_paper_paper_api_1_15_2_R0_1_SNAPSHOT.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_SaberLLC_Saber_Factions_2_3_3_STABLE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/NotifyUser.iml" beforeDir="false" afterPath="$PROJECT_DIR$/NotifyUser.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/minuxe/notifyuser/NotifyUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/minuxe/notifyuser/NotifyUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/minuxe/notifyuser/handlers/ConfigurationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/minuxe/notifyuser/handlers/ConfigurationHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/minuxe/notifyuser/hooks/Hook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/minuxe/notifyuser/hooks/Hook.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/minuxe/notifyuser/hooks/HookManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/minuxe/notifyuser/hooks/HookManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/minuxe/notifyuser/hooks/factions/FactionsChatEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/minuxe/notifyuser/hooks/factions/FactionsChatEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/minuxe/notifyuser/hooks/factions/FactionsChatListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/minuxe/notifyuser/hooks/factions/FactionsChatListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/minuxe/notifyuser/hooks/factions/FactionsChatNotification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/minuxe/notifyuser/hooks/factions/FactionsChatNotification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/minuxe/notifyuser/hooks/factions/FactionsHook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/minuxe/notifyuser/hooks/factions/FactionsHook.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/minuxe/notifyuser/notifications/ChatNotification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/minuxe/notifyuser/notifications/ChatNotification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/NotifyUser-1.1.8.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/NotifyUser-1.1.8.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/minuxe/notifyuser/NotifyUser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/minuxe/notifyuser/NotifyUser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/minuxe/notifyuser/handlers/ConfigurationHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/minuxe/notifyuser/handlers/ConfigurationHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/minuxe/notifyuser/hooks/Hook.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/minuxe/notifyuser/hooks/Hook.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/minuxe/notifyuser/hooks/HookManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/minuxe/notifyuser/hooks/HookManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/minuxe/notifyuser/hooks/factions/FactionsChatEvent$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/minuxe/notifyuser/hooks/factions/FactionsChatEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/minuxe/notifyuser/hooks/factions/FactionsChatEvent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/minuxe/notifyuser/hooks/factions/FactionsChatListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/minuxe/notifyuser/hooks/factions/FactionsChatListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/minuxe/notifyuser/hooks/factions/FactionsChatNotification.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/minuxe/notifyuser/hooks/factions/FactionsChatNotification.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/minuxe/notifyuser/hooks/factions/FactionsHook.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/minuxe/notifyuser/hooks/factions/FactionsHook.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/minuxe/notifyuser/notifications/ChatNotification.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/minuxe/notifyuser/notifications/ChatNotification.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1Zy6C871yzrs46Mi9i8L0ykYtt5" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="OverrideImplement.combined" value="false" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="nodejs.mocha.mocha_node_package_dir" value="" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.minuxe.notifyuser.hooks.factions" />
+      <recent name="com.minuxe.notifyuser.notifications" />
+      <recent name="com.minuxe.notifyuser.events" />
+      <recent name="com.minuxe.notifyuser.listeners" />
+      <recent name="com.minuxe.notifyuser.hooks" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.minuxe.notifyuser.hooks.factions" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean" />
+      <command value="mvn install" />
+      <command value="git branch -b temp" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Maven.NotifyUser [install]">
+    <configuration name="NotifyUser [deploy]" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="deploy" />
+              </list>
+            </option>
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="NotifyUser [install]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="install" />
+              </list>
+            </option>
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="NotifyUser [just-install]" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="install:install" />
+              </list>
+            </option>
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="install" />
+              </list>
+            </option>
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Maven.NotifyUser [install]" />
+      <item itemvalue="Maven.NotifyUser [deploy]" />
+      <item itemvalue="Maven.NotifyUser [just-install]" />
+    </list>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e064970e-d4ec-4dd2-899b-ce2fc866e608" name="Default Changelist" comment="" />
+      <created>1585798857855</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1585798857855</updated>
+      <workItem from="1585798892764" duration="9836000" />
+      <workItem from="1586292682639" duration="523000" />
+      <workItem from="1586309059696" duration="1084000" />
+      <workItem from="1586455353000" duration="63974000" />
+      <workItem from="1586558643649" duration="4268000" />
+      <workItem from="1586565283663" duration="32686000" />
+      <workItem from="1586663379755" duration="7088000" />
+      <workItem from="1586741950632" duration="32750000" />
+      <workItem from="1586933915993" duration="615000" />
+      <workItem from="1586942928124" duration="14124000" />
+      <workItem from="1587010987364" duration="1943000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="137" y="0" width="1092" height="728" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586749781529">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="137" y="0" width="1092" height="728" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1586749781529" />
+    <state x="488" y="74" key="#com.intellij.ide.util.MemberChooser" timestamp="1586762059280">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="488" y="74" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1586762059280" />
+    <state x="477" y="149" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1586561976762">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="477" y="149" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1366.728@0.0.1366.728" timestamp="1586561976762" />
+    <state x="479" y="250" width="535" height="237" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1586972115854">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="479" y="250" width="535" height="237" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1366.728@0.0.1366.728" timestamp="1586972115854" />
+    <state x="508" y="228" key="#com.intellij.refactoring.move.moveInstanceMethod.MoveInstanceMethodDialog" timestamp="1586464943394">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="508" y="228" key="#com.intellij.refactoring.move.moveInstanceMethod.MoveInstanceMethodDialog/0.0.1366.728@0.0.1366.728" timestamp="1586464943394" />
+    <state x="196" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1586561876805">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="196" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1366.728@0.0.1366.728" timestamp="1586561876805" />
+    <state x="463" y="120" key="FileChooserDialogImpl" timestamp="1586745465351">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="463" y="120" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1586745465351" />
+    <state width="1323" height="132" key="GridCell.Tab.0.bottom" timestamp="1586985556698">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="132" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1586985556698" />
+    <state width="1323" height="132" key="GridCell.Tab.0.center" timestamp="1586985556697">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="132" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1586985556697" />
+    <state width="1323" height="132" key="GridCell.Tab.0.left" timestamp="1586985556697">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="132" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1586985556697" />
+    <state width="1323" height="132" key="GridCell.Tab.0.right" timestamp="1586985556698">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="132" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1586985556698" />
+    <state x="181" y="0" key="SettingsEditor" timestamp="1586748909744">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="181" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1586748909744" />
+    <state x="413" y="120" width="540" height="496" key="extract.method.dialog" timestamp="1586569760156">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="413" y="120" width="540" height="496" key="extract.method.dialog/0.0.1366.728@0.0.1366.728" timestamp="1586569760156" />
+    <state x="379" y="0" width="737" height="728" key="find.popup" timestamp="1586562010196">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="379" y="0" width="737" height="728" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1586562010196" />
+    <state x="339" y="162" width="672" height="677" key="run.anything.popup" timestamp="1586670478017">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="339" y="162" width="672" height="677" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1586670478017" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1586765670038">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1586765670038" />
+  </component>
+</project>
