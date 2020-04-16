@@ -44,6 +44,8 @@ public class NotifyUser extends JavaPlugin {
    // String noPermission = ChatColor.DARK_RED + "You don't have permission to
    // perform this command.";
    String chatHeader = ChatColor.AQUA + "\n======[" + ChatColor.WHITE + getName() + ChatColor.AQUA + "]======";
+
+
    // String generalCommands = getHelpCommands(commandConfig, "general");
    // String adminCommands = getHelpCommands(commandConfig, "admin");
 
@@ -74,6 +76,7 @@ public class NotifyUser extends JavaPlugin {
       debug("Server " + (isServerRunningPaper ? "is" : "is not") + " running Paper.");
 
       hookManager = new HookManager(this);
+      hookManager.enableHooks();
    }
 
    @Override
@@ -199,7 +202,7 @@ public class NotifyUser extends JavaPlugin {
       sendPingNotification = (!notificationType.equals("false"));
       isAnonymous = (notificationType.equals("anonymous"));
       noPermission =  translateFormat(configHandler.getString("messages.errors.no-perm"));
-      // debugEnabled = config.getBoolean("debug");
+       debugEnabled = configHandler.getBoolean("debug");
       SoundNotification.setValues(configHandler);
       ChatNotification.setValues(configHandler);
    }
@@ -383,4 +386,8 @@ public class NotifyUser extends JavaPlugin {
 
     public static void debug(String debugMessage) { if (debugEnabled) { log.log(Level.INFO,
     "[DEBUG] " + debugMessage); } }
+
+   public static boolean debugEnabled() {
+      return debugEnabled;
+   }
 }

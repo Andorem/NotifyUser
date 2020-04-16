@@ -52,15 +52,15 @@ public class ConfigurationHandler {
       missingValues = getMissingDefaults();
 
       if (!missingValues.isEmpty()) {
-         plugin.getLogger().warning(
-                 "It looks like your config.yml may be out of date.\n" + "Adding the defaults for missing values:");
+         plugin.getLogger().warning("It looks like your config.yml may be out of date.");
+         plugin.getLogger().warning("Adding the defaults for missing values:");
          for (Entry<String, Object> key : missingValues.entrySet()) {
             plugin.getLogger().warning("  - " + key.getKey());
             plugin.getConfig().set(key.getKey(), key.getValue());
          }
          plugin.saveConfig();
-         plugin.getLogger().info("Your config.yml should now be fixed and updated.\n"
-                 + "If it is not, try deleting it then generate a new one with /NotifyUser reload.");
+         plugin.getLogger().info("Your config.yml should now be fixed and updated.");
+         plugin.getLogger().info("If it is not, try deleting it then generate a new one with /NotifyUser reload.");
       }
    }
 

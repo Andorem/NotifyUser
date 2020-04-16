@@ -1,20 +1,13 @@
 package com.minuxe.notifyuser.hooks.factions;
 
-import com.massivecraft.factions.FPlayer;
-import com.massivecraft.factions.FPlayers;
-import com.massivecraft.factions.struct.ChatMode;
 import com.minuxe.notifyuser.NotifyUser;
 import com.minuxe.notifyuser.notifications.ChatNotification;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventException;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import java.util.Set;
 
 public class FactionsChatListener implements Listener {
     FactionsHook hook;
@@ -26,14 +19,8 @@ public class FactionsChatListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     private final void onChat(AsyncPlayerChatEvent e) {
         NotifyUser.debug("FactionsChatListener low priority called");
-        if (FactionsHook.isInFactionsChat(e.getPlayer()) && ChatNotification.canSend(e.getPlayer(), e.getMessage())) {
-            try {
-                Bukkit.getPluginManager().callEvent(new FactionsChatEvent(e.getPlayer(),
-                        e.getMessage(), e.getFormat()));
-            } catch (EventException ex) {
-                NotifyUser.log("ERROR: Could not invoke FactionsChatEvent. Is Factions hooked and enabled?", "WARNING");
-                ex.printStackTrace();
-            }
+        if (hook.isInFactionsChat(e.getPlayer()) && ChatNotification.canSend(e.getPlayer(), e.getMessage())) {
+            hook.callEvent(e.getPlayer(), e.getMessage(), e.getFormat());
             e.setCancelled(true);
         }
     }
@@ -43,16 +30,9 @@ public class FactionsChatListener implements Listener {
         NotifyUser.debug("FactionsChatListener normal priority called");
 
         String messageColor = ChatColor.getLastColors(e.getFormat());
-        FactionsChatNotification chatNotification = new FactionsChatNotification(e, messageColor);
-        chatNotification.send();
+        FactionsChatNotification factionsChatNotification = new FactionsChatNotification(e, messageColor);
+        factionsChatNotification.send();
 
-
-//        Player thisPlayer = e.getPlayer();
-//        FPlayer factionPlayer = FPlayers.getInstance().getByPlayer(thisPlayer);
-//        if (FactionsChatNotification.canSend(factionPlayer, e.getMessage())) {
-//            NotifyUser.debug("FactionsChatListener: " + thisPlayer.getName() + " initializing chat notification. ");
-//            (new FactionsChatNotification(factionPlayer, e, ChatColor.WHITE)).send();
-//        }
     }
 
 }

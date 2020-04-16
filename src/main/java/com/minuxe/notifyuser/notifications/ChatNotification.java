@@ -29,6 +29,8 @@ public class ChatNotification {
     public ChatNotification(Player sender, String message, String format, String messageColor, Set<Player> recipients) {
         this.sender = sender;
         this.messageColor = messageColor;
+        this.message = message;
+        this.format = format;
         this.recipients = recipients;
     }
 
@@ -54,8 +56,8 @@ public class ChatNotification {
     }
 
     private void parseReceivers() {
-        String[] splitMessage = message.split(" ");
         NotifyUser.debug("ChatNotification: format = " + format);
+        String[] splitMessage = message.split(" ");
         for (int i = 0; i < splitMessage.length; i++) {
             String word = splitMessage[i];
             String wordStripped = ChatColor.stripColor(word);
@@ -121,7 +123,7 @@ public class ChatNotification {
         return highlightForAll;
     }
 
-    private void sendToAll() {
+    protected void sendToAll() {
         for (final Player player : recipients) {
             if (highlightMuteType.equals("all") && !shouldBeHighlightedFor(player)) continue; // player has all chat notifications muted and/or no highlight permissions
 
@@ -131,7 +133,7 @@ public class ChatNotification {
         }
     }
 
-    private void sendOnlyToReceiversAndOverrides() {
+    protected void sendOnlyToReceiversAndOverrides() {
         for (final Player player : Bukkit.getOnlinePlayers()) {
             if (!shouldBeHighlightedFor(player)) continue;
 
