@@ -1,12 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.minuxe</groupId>
+  <groupId>io.github.andorem</groupId>
   <artifactId>NotifyUser</artifactId>
   <version>${version-complete}</version>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
 
     <name>NotifyUser</name>
     <description>Send and receive in-chat and sound notifications to other players.</description>
+
+    <modules>
+        <module>main</module>
+        <module>hooks</module>
+    </modules>
 
     <properties>
         <major>1</major>
@@ -19,16 +24,16 @@
   <build>
       <finalName>${project.artifactId}-${project.version}</finalName>
 
-     <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-        <includes>
-         <include>*.yml</include>
-         <include>*.txt</include>
-        </includes>
-      </resource>
-     </resources>
+<!--     <resources>-->
+<!--      <resource>-->
+<!--        <directory>src/main/resources</directory>-->
+<!--        <filtering>true</filtering>-->
+<!--        <includes>-->
+<!--         <include>*.yml</include>-->
+<!--         <include>*.txt</include>-->
+<!--        </includes>-->
+<!--      </resource>-->
+<!--     </resources>-->
 
        <plugins>
            <plugin>
@@ -80,14 +85,14 @@
           <id>sonatype.snapshots</id>
           <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
       </repository>
-          <repository>
-              <id>factionsuuid-repo</id>
-              <url>http://ci.ender.zone/plugin/repository/everything/</url>
-          </repository>
-          <repository>
-              <id>jitpack.io</id>
-              <url>https://jitpack.io</url>
-          </repository>
+<!--          <repository>-->
+<!--              <id>factionsuuid-repo</id>-->
+<!--              <url>http://ci.ender.zone/plugin/repository/everything/</url>-->
+<!--          </repository>-->
+<!--          <repository>-->
+<!--              <id>jitpack.io</id>-->
+<!--              <url>https://jitpack.io</url>-->
+<!--          </repository>-->
 
    </repositories>
 
@@ -107,12 +112,12 @@
           <scope>provided</scope>
       </dependency>
   <!--FactionsUUID-->
-      <dependency>
-          <groupId>com.massivecraft</groupId>
-          <artifactId>Factions</artifactId>
-          <version>1.6.9.5-U0.5.10</version>
-          <scope>provided</scope>
-      </dependency>
+<!--      <dependency>-->
+<!--          <groupId>com.massivecraft</groupId>-->
+<!--          <artifactId>Factions</artifactId>-->
+<!--          <version>1.6.9.5-U0.5.10</version>-->
+<!--          <scope>provided</scope>-->
+<!--      </dependency>-->
   <!--SaberFactions-->
 <!--      <dependency>-->
 <!--          <groupId>com.github.SaberLLC</groupId>-->

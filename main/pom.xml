@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.github.andorem.NotifyUser</groupId>
+    <artifactId>main</artifactId>
+    <packaging>jar</packaging>
+
+    <name>main</name>
+    <description>Send and receive in-chat and sound notifications to other players.</description>
+
+    <parent>
+        <artifactId>NotifyUser</artifactId>
+        <groupId>io.github.andorem.NotifyUser</groupId>
+        <version>${revision}</version>
+        <relativePath>../</relativePath>
+    </parent>
+
+    <properties>
+        <major>1</major>
+        <minor>1</minor>
+        <patch>8</patch>
+        <version-complete>${major}.${minor}.${patch}-b${buildNumber}</version-complete>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+
+        <resources>
+            <resource>
+                <directory>../main/src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>*.yml</include>
+                    <include>*.txt</include>
+                </includes>
+            </resource>
+        </resources>
+
+
+    </build>
+
+
+    <dependencies>
+        <!-- Hooks -->
+        <dependency>
+            <groupId>io.github.andorem.NotifyUser</groupId>
+            <artifactId>hooks</artifactId>
+            <version>${version-complete}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>
