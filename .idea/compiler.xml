@@ -6,11 +6,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="NotifyUser" />
+        <module name="core" />
+        <module name="main" />
+        <module name="factionsuuid" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="core" target="1.8" />
+      <module name="factions" target="1.8" />
+      <module name="factionsuuid" target="1.8" />
+      <module name="factionsuuidold" target="1.8" />
+      <module name="hooks" target="1.8" />
+      <module name="main" target="1.8" />
       <module name="NotifyUser" target="1.8" />
+      <module name="old" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -1,6 +1,6 @@
 name: ${project.name}
 author: Nexamor
-main: com.minuxe.notifyuser.NotifyUser
+main: io.github.andorem.notifyuser.NotifyUser
 version: ${project.version}
 api-version: 1.13
 description: ${project.description}

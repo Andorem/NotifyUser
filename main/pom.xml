@@ -4,25 +4,68 @@
     <artifactId>main</artifactId>
     <packaging>jar</packaging>
 
-    <name>main</name>
+    <name>NotifyUser</name>
     <description>Send and receive in-chat and sound notifications to other players.</description>
 
     <parent>
         <artifactId>NotifyUser</artifactId>
-        <groupId>io.github.andorem.NotifyUser</groupId>
+        <groupId>io.github.andorem</groupId>
         <version>${revision}</version>
-        <relativePath>../</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <properties>
-        <major>1</major>
-        <minor>1</minor>
-        <patch>8</patch>
-        <version-complete>${major}.${minor}.${patch}-b${buildNumber}</version-complete>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <build>
+
+        <finalName>${project.parent.artifactId}-${project.version}-b${buildNumber}</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.4.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <finalName>${project.build.finalName}</finalName>
+                            <outputDirectory>../builds</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <id>buildNumber</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <format>{0,number}</format>
+                    <items>
+                        <item>buildNumber</item>
+                    </items>
+                    <doCheck>false</doCheck>
+                    <doUpdate>false</doUpdate>
+                    <revisionOnScmFailure>unknownbuild</revisionOnScmFailure>
+                </configuration>
+            </plugin>
+        </plugins>
 
         <resources>
             <resource>
@@ -35,17 +78,22 @@
             </resource>
         </resources>
 
-
     </build>
 
 
     <dependencies>
         <!-- Hooks -->
         <dependency>
-            <groupId>io.github.andorem.NotifyUser</groupId>
-            <artifactId>hooks</artifactId>
-            <version>${version-complete}</version>
-            <scope>provided</scope>
+            <groupId>io.github.andorem.NotifyUser.hooks</groupId>
+            <artifactId>core</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.github.andorem.NotifyUser.hooks</groupId>
+            <artifactId>factionsuuid</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.andorem</groupId>
   <artifactId>NotifyUser</artifactId>
-  <version>${version-complete}</version>
+  <version>${revision}</version>
   <packaging>pom</packaging>
 
     <name>NotifyUser</name>
@@ -16,13 +16,13 @@
     <properties>
         <major>1</major>
         <minor>1</minor>
-        <patch>8</patch>
-        <version-complete>${major}.${minor}.${patch}-b${buildNumber}</version-complete>
+        <patch>9</patch>
+        <revision>${major}.${minor}.${patch}</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
   <build>
-      <finalName>${project.artifactId}-${project.version}</finalName>
+<!--      <finalName>${project.artifactId}-${project.version}-b${buildNumber}</finalName>-->
 
 <!--     <resources>-->
 <!--      <resource>-->
@@ -43,29 +43,6 @@
                <configuration>
                    <source>1.8</source>
                    <target>1.8</target>
-               </configuration>
-           </plugin>
-           <plugin>
-               <groupId>org.codehaus.mojo</groupId>
-               <artifactId>buildnumber-maven-plugin</artifactId>
-               <version>1.4</version>
-               <executions>
-                   <execution>
-                       <id>buildNumber</id>
-                       <phase>validate</phase>
-                       <goals>
-                           <goal>create</goal>
-                       </goals>
-                   </execution>
-               </executions>
-               <configuration>
-                   <format>{0,number}</format>
-                   <items>
-                       <item>buildNumber</item>
-                   </items>
-                   <doCheck>false</doCheck>
-                   <doUpdate>false</doUpdate>
-                   <revisionOnScmFailure>unknownbuild</revisionOnScmFailure>
                </configuration>
            </plugin>
        </plugins>
@@ -127,10 +104,37 @@
 <!--      </dependency>-->
   </dependencies>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.github.andorem.notifyuser</groupId>
+                <artifactId>hooks</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.andorem.notifyuser</groupId>
+                <artifactId>main</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.andorem.notifyuser.hooks</groupId>
+                <artifactId>core</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.andorem.notifyuser.hooks</groupId>
+                <artifactId>factionsuuid</artifactId>
+                <version>${revision}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <scm>
         <connection>scm:svn:http://127.0.0.1/dummy</connection>
         <developerConnection>scm:svn:https://127.0.0.1/dummy</developerConnection>
         <tag>HEAD</tag>
         <url>http://127.0.0.1/dummy</url>
     </scm>
+
+
 </project>

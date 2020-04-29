@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.github.andorem.NotifyUser.hooks</groupId>
+    <artifactId>factionsuuid</artifactId>
+    <packaging>jar</packaging>
+    <name>factionsuuid</name>
+
+    <parent>
+        <artifactId>hooks</artifactId>
+        <groupId>io.github.andorem.NotifyUser</groupId>
+        <version>${revision}</version>
+    </parent>
+
+    <repositories>
+        <repository>
+          <id>factionsuuid-repo</id>
+          <url>http://ci.ender.zone/plugin/repository/everything/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!--FactionsUUID-->
+        <dependency>
+          <groupId>com.massivecraft</groupId>
+          <artifactId>Factions</artifactId>
+          <version>1.6.9.5-U0.5.10</version>
+          <scope>provided</scope>
+        </dependency>
+
+        <!--Hooks Core-->
+        <dependency>
+            <groupId>io.github.andorem.NotifyUser.hooks</groupId>
+            <artifactId>core</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+</project>

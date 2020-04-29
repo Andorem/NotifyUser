@@ -2,21 +2,21 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.andorem.NotifyUser</groupId>
   <artifactId>hooks</artifactId>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
 
-    <name>hooks</name>
+    <name>NotifyUser Hooks</name>
     <description>Hooks for NotifyUser.</description>
+    <modules>
+        <module>factionsuuid</module>
+        <module>core</module>
+    </modules>
 
     <parent>
         <artifactId>NotifyUser</artifactId>
         <groupId>io.github.andorem</groupId>
         <version>${revision}</version>
-        <relativePath>..</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
   <build>
 
@@ -33,5 +33,6 @@
 
 
   </build>
+
 
 </project>
