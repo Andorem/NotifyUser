@@ -1,18 +1,14 @@
 package io.github.andorem.notifyuser.hooks.factions;
 
 import io.github.andorem.notifyuser.hooks.Hook;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.EventException;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.logging.Level;
 
 
 public abstract class FactionsHook extends Hook {

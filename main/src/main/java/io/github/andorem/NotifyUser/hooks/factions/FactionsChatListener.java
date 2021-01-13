@@ -28,14 +28,12 @@ public class FactionsChatListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     private final void onFactionChat(FactionsChatEvent e) {
-        NotifyUser.debug("onFactionChat: FactionsChatEvent fired");
         String messageColor = ChatColor.getLastColors(e.getFormat());
         FactionsChatNotification factionsChatNotification = new FactionsChatNotification(e, messageColor);
         factionsChatNotification.send();
     }
 
     public void callEvent(Player player, String message, String format) {
-        NotifyUser.debug("callEvent: FactionsChatEvent called");
         try {
             Bukkit.getPluginManager().callEvent(new FactionsChatEvent(hook, player, message, format));
         } catch (EventException | IllegalStateException e) {

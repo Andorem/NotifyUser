@@ -20,7 +20,6 @@ public class HookManager {
     }
 
     private void initHooks() {
-        NotifyUser.debug("initHooks: hooks length = " + hooks.size());
         hooks = new HashSet<>();
         initFactionsHook();
     }
@@ -34,7 +33,6 @@ public class HookManager {
 
             // FactionsUUID
             if (factionsVersion.split("-")[1].charAt(0) == 'U') { // Check for FactionsUUID version format, e.g. '1.6.9.5-U0.5.10'
-                NotifyUser.debug("initFactionsHook: setting Listener");
                 factionsHook = new FactionsUUIDHook(plugin, plugin.getConfigHandler().getHooksConfig());
                 factionsHook.setListener(new FactionsChatListener(factionsHook));
             }
@@ -46,14 +44,12 @@ public class HookManager {
             }
             else {
                 hooks.add(factionsHook);
-                NotifyUser.debug("initFactionsHook: adding factionshook, now hooks length = " + hooks.size());
             }
         }
 
     }
 
     public void enableHooks() {
-        NotifyUser.debug("enableHooks: hooks length = " + hooks.size());
         for (Hook hook : hooks) {
             boolean wasEnabled = hook.isEnabled();
             boolean isEnabled = hook.enable();
@@ -63,21 +59,16 @@ public class HookManager {
     }
 
     public void disableHooks() {
-        NotifyUser.debug("disableHooks: hooks length = " + hooks.size());
         for (Hook hook: hooks) {
-            NotifyUser.debug("disableHooks: hook = " + hook.getName());
             hook.disable();
         }
         hooks.clear();
-        NotifyUser.debug("disableHooks: hooks length now = " + hooks.size());
     }
 
     public void reloadHooks() {
-        NotifyUser.debug("reloadHooks: hooks length = " + hooks.size());
         disableHooks();
         initHooks();
         enableHooks();
-        NotifyUser.debug("reloadHooks: hooks length now = " + hooks.size());
     }
 
     public Set<Hook> getHooks() {

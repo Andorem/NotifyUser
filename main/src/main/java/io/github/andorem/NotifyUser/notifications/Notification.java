@@ -2,7 +2,6 @@ package io.github.andorem.notifyuser.notifications;
 
 import io.github.andorem.notifyuser.NotifyUser;
 import io.github.andorem.notifyuser.handlers.DataHandler;
-import io.github.andorem.notifyuser.notifications.SoundNotification;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

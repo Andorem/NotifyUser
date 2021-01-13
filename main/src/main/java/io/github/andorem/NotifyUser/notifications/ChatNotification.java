@@ -4,14 +4,12 @@ import com.google.common.collect.Sets;
 import io.github.andorem.notifyuser.NotifyUser;
 import io.github.andorem.notifyuser.events.PlayerChatNotificationEvent;
 import io.github.andorem.notifyuser.handlers.ConfigurationHandler;
-import org.apache.commons.lang.SerializationUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import java.io.Serializable;
 import java.util.*;
 
 public class ChatNotification {
@@ -67,26 +65,8 @@ public class ChatNotification {
                 String wordWithoutPunctuation = wordStripped.replaceAll("[^a-zA-Z0-9_]", "");
                 String receiverName = wordWithoutPunctuation.split(pingSymbol)[0];
 
-//                // Get word color
-//                String wordColor = messageColor;
-//                NotifyUser.debug("ChatNotification: wordColor =  " + wordColor);
-//                if (i == 0 && splitMessage.length > 1) {
-//                    NotifyUser.debug("ChatNotification: word is first and message has more than one word");
-//                    String wordAfter = splitMessage[i + 1];
-//                    NotifyUser.debug("ChatNotification: wordAfter =  " + wordAfter);
-//                    wordColor = getColor(wordAfter);
-//                    NotifyUser.debug("ChatNotification: now wordColor =  " + wordColor);
-//                } else if (i != 0) {
-//                    NotifyUser.debug("ChatNotification: word is not first");
-//                    String wordBefore = splitMessage[i - 1];
-//                    NotifyUser.debug("ChatNotification: wordBefore =  " + wordBefore);
-//                    wordColor = getColor(wordBefore);
-//                    NotifyUser.debug("ChatNotification: now wordColor =  " + wordColor);
-//                }
-
                 if (isReceiverNameValid(receiverName)) {
                     receivers.add(receiverName);
-                    word = highlightName(word, receiverName);
                 }
             }
         }
@@ -114,7 +94,6 @@ public class ChatNotification {
 
     public boolean send() {
         parseReceivers();
-        NotifyUser.debug("receivers = " + Arrays.toString(receivers.toArray()));
         if (highlightForAll) sendToAll();
         else sendOnlyToReceiversAndOverrides();
 
@@ -145,7 +124,6 @@ public class ChatNotification {
 
                 // Send custom chat event with individualized message
                 AsyncPlayerChatEvent newChatEvent = new PlayerChatNotificationEvent(true, sender, newMessage, Sets.newHashSet(player), chatEvent.getFormat());
-                NotifyUser.debug("new chat event recipients: " + Arrays.toString(newChatEvent.getRecipients().toArray()));
                 Bukkit.getPluginManager().callEvent(newChatEvent);
             }
 //            if (!(chatEvent == null)) chatEvent.setMessage(message);
@@ -159,40 +137,20 @@ public class ChatNotification {
     protected void sendOnlyToReceiversAndOverrides() {
         Set<Player> newRecipients = new HashSet<>();
 
-        NotifyUser.debug("original chat event recipients: " + Arrays.toString(chatEvent.getRecipients().toArray()));
-
         // Chat event messages must be individualized for each recipient (e.g. highlights only their name)
         for (Player player : chatEvent.getRecipients()) {
             if (isReceiver(player)) playSound(player);
 
             if (!shouldBeHighlightedFor(player)) continue;
 
-            NotifyUser.debug("highlight for: " + player.getName());
             newRecipients.add(player);
             String newMessage = isOverride(player) ? getMessageWithHighlights(receivers, message) : getMessageWithHighlight(player.getName(), message); // overrides receive all notifications, regardless of name
 
             AsyncPlayerChatEvent newChatEvent = new PlayerChatNotificationEvent(true, sender, newMessage, Sets.newHashSet(player), chatEvent.getFormat());
-            NotifyUser.debug("new chat event recipients: " + Arrays.toString(newChatEvent.getRecipients().toArray()));
             Bukkit.getPluginManager().callEvent(newChatEvent);
-
         }
 
         if (chatEvent != null) chatEvent.getRecipients().removeAll(newRecipients); // modified original event excludes those highlighted
-
-
-        NotifyUser.debug("transformed old chat event recipients: " + Arrays.toString(chatEvent.getRecipients().toArray()));
-
-//        for (final Player player : Bukkit.getOnlinePlayers()) {
-//            if (!shouldBeHighlightedFor(player)) continue;
-//
-//            NotifyUser.debug("highlight for: " + player.getName());
-//            chatEvent.getRecipients().remove(player);
-//            String newMessage = getMessageWithHighlights(player.getName(), message);
-////            player.sendMessage(String.format(format, sender.getDisplayName(), newMessage));
-//
-//            if (isReceiver(player)) playSound(player);
-//        }
-//        Bukkit.getPluginManager().callEvent(new AsyncPlayerChatEvent(sender, newMessage));
 
     }
 

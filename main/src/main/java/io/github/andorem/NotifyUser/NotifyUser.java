@@ -204,69 +204,7 @@ public class NotifyUser extends JavaPlugin {
       ChatNotification.setValues(configHandler);
    }
 
-   /*
-    * private void updateConfig() { HashMap<String, Object> missingValues = new
-    * HashMap<String, Object>(); missingValues = getMissingDefaults();
-    * 
-    * if (!missingValues.isEmpty()) { log.warning(
-    * "It looks like your config.yml may be out of date.\n" +
-    * "Adding the defaults for missing values:"); for (Entry<String, Object> key
-    * : missingValues.entrySet()) { log.warning("  - " + key.getKey());
-    * getConfig().set(key.getKey(), key.getValue()); } saveConfig(); log.info(
-    * "Your config.yml should now be fixed and updated.\n" +
-    * "If it is not, try deleting it then generate a new one with /nu reload.");
-    * }
-    * 
-    * } private void ensureConfigExists() { File file = new File(DATA_FOLDER,
-    * "config.yml"); if (!file.exists()) { log.info(
-    * "No config.yml found. Generating default one."); saveDefaultConfig();
-    * reloadConfig(); } }
-    * 
-    * private HashMap<String, Object> getMissingDefaults() { Configuration
-    * defaultConfig = getConfig().getDefaults(); HashMap<String, Object>
-    * foundDefaults = new HashMap<String, Object>();
-    * 
-    * for (String key : defaultConfig.getKeys(true)) { if
-    * (!getConfig().getKeys(true).contains(key)) { foundDefaults.put(key,
-    * defaultConfig.get(key)); } } return foundDefaults;
-    * 
-    * }
-    * 
-    * /Modification of Bukkit's YamlConfiguration.loadConfiguration(); public
-    * boolean isConfigurationValid(File file) { Validate.notNull(file,
-    * "File cannot be null");
-    * 
-    * YamlConfiguration config = new YamlConfiguration();
-    * 
-    * try { config.load(file); return true; } catch (FileNotFoundException ex) {
-    * } catch (IOException ex) { getLogger().log(Level.SEVERE, "Cannot load " +
-    * file, ex); } catch (InvalidConfigurationException ex) {
-    * getLogger().log(Level.SEVERE, "Cannot load " + file , ex); } return false;
-    * }
-    */
-   /*
-    * String getHelpCommands(FileConfiguration config, String groupName) {
-    * ConfigurationSection groupSection =
-    * config.getConfigurationSection(groupName); Set<String> groupCommands =
-    * groupSection.getKeys(false); String helpHeader = ChatColor.RED +
-    * StringUtils.capitalize(groupName) + " Commands: \n"; String helpCommands =
-    * helpHeader;
-    * 
-    * for (String commandName : groupCommands) { String helpCommand = "";
-    * ConfigurationSection commandSection =
-    * groupSection.getConfigurationSection(commandName); Set<String> commandInfo
-    * = commandSection.getKeys(false);
-    * 
-    * for (String commandKey : commandInfo) { String commandValue =
-    * commandSection.getString(commandKey); if (commandKey.equals("usage")) {
-    * helpCommand += ChatColor.GREEN + commandValue; } else if
-    * (commandKey.equals("description")) { helpCommand += ChatColor.WHITE +
-    * " - " + commandValue + "\n"; } } helpCommands += helpCommand; } return
-    * helpCommands; }
-    */
    String getHelpCommands(FileConfiguration config, CommandSender sender) {
-      // ConfigurationSection groupSection =
-      // config.getConfigurationSection(groupName);
       String helpCommands = "";
       Set<String> groups = config.getKeys(false);
       for (String groupName : groups) {
