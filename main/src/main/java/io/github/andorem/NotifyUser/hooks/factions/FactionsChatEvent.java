@@ -6,6 +6,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventException;
 import org.bukkit.event.HandlerList;
 
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -23,7 +24,7 @@ public class FactionsChatEvent extends Event implements Cancellable {
     private Player player;
     private String message;
     private String format;
-    private Set<Player> recipients;
+    private Set<Player> recipients = new HashSet<>();
     private Set<Player> chatRecipients;
     private Set<Player> spyRecipients;
 
@@ -40,9 +41,11 @@ public class FactionsChatEvent extends Event implements Cancellable {
             throw new EventException("ERR: Could not find Factions Chat formats! Is Factions installed?");
         }
 
-        this.recipients = hook.getPlayersInChannelWith(player);
-        this.chatRecipients = hook.getPlayersInChannelWith(player, false);
+        this.chatRecipients = hook.getPlayersInChannelWith(player);
         this.spyRecipients = hook.getSpiesInChannelWith(player);
+        this.recipients.addAll(chatRecipients);
+        this.recipients.addAll(spyRecipients);
+
         this.factionTag = hook.getFactionTag(player);
         this.factionID = hook.getFactionID(player);
         this.chatMode = hook.getChatMode(player);

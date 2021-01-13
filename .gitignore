@@ -1,4 +1,9 @@
 .idea
+.idea/*
+*/*.iml
+*.iml
 *_pid*.log
-/target
+*/target
+*/*/target
+builds/*
 NotifyUser.iml

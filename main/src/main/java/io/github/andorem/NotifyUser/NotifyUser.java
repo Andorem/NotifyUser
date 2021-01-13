@@ -5,8 +5,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import io.github.andorem.notifyuser.hooks.HookManager;
 import io.github.andorem.notifyuser.handlers.ConfigurationHandler;
+import io.github.andorem.notifyuser.hooks.HookManager;
 import io.github.andorem.notifyuser.listeners.ChatListener;
 import io.github.andorem.notifyuser.notifications.ChatNotification;
 import io.github.andorem.notifyuser.notifications.Notification;
@@ -94,7 +94,7 @@ public class NotifyUser extends JavaPlugin {
       if (cmd.getName().equalsIgnoreCase("nu")) {
          if ((args.length < 1) || (args.length == 1 && args[0].equalsIgnoreCase("help"))) {
             sender.sendMessage(chatHeader);
-            if (sender.hasPermission("NotifyUser.player.send")) {
+            if (sender.hasPermission("notifyuser.player.send")) {
                sender.sendMessage(ChatColor.WHITE
                      + "To ping a player, type @ and their username into the chat. This is not case-sensitive.\n"
                      + "You must type at least " + ChatColor.RED + ChatNotification.getMinNameLengthRequired() + ChatColor.WHITE
@@ -102,14 +102,14 @@ public class NotifyUser extends JavaPlugin {
                      + "E.g. To ping MaryAnn32, type @MaryAnn32, @MaryAnn, or @mary.\n");
             }
             sender.sendMessage(getHelpCommands(commandConfig, sender));
-            // if (sender.hasPermission("NotifyUser.admin.set"))
+            // if (sender.hasPermission("notifyuser.admin.set"))
             // sender.sendMessage(adminCommands);
             return true;
          }
 
          else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("mute")) {
-               if (sender.hasPermission("NotifyUser.player.mute")) {
+               if (sender.hasPermission("notifyuser.player.mute")) {
                   if (!senderIsPlayer) {
                      sender.sendMessage("You must be a player to use that command.");
                   } else {
@@ -124,7 +124,7 @@ public class NotifyUser extends JavaPlugin {
             }
 
             else if (args[0].equalsIgnoreCase("reload")) {
-               if (sender.hasPermission("NotifyUser.admin.reload")) {
+               if (sender.hasPermission("notifyuser.admin.reload")) {
                   boolean reloadedSuccessfully = configHandler.reloadConfig();
                   if (reloadedSuccessfully) {
                      setValues();
@@ -142,7 +142,7 @@ public class NotifyUser extends JavaPlugin {
             }
 
             else {
-               if ((sender.hasPermission("NotifyUser.player.send"))) {
+               if ((sender.hasPermission("notifyuser.player.send"))) {
                   Player receiver = getServer().getPlayer(args[0]);
                   String receiverName = (receiver == null ? null : receiver.getName());
 
@@ -155,7 +155,7 @@ public class NotifyUser extends JavaPlugin {
                   } 
                   else if (notification.isMutedFor(receiver))
                      fmt = "mute.alert";
-                  else if (receiver.hasPermission("NotifyUser.player.receive")) {
+                  else if (receiver.hasPermission("notifyuser.player.receive")) {
                      fmt = "ping.from";
                      ping(sender, receiver);
                   }
@@ -169,7 +169,7 @@ public class NotifyUser extends JavaPlugin {
             }
          } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("set")) {
-               if (sender.hasPermission("NotifyUser.admin.set")) {
+               if (sender.hasPermission("notifyuser.admin.set")) {
                   if (SoundNotification.setSound(args[1].toUpperCase(), sender)) {
                      configHandler.set("notifications.sound-effect", args[1].toUpperCase());
                      configHandler.saveConfig();
@@ -186,9 +186,9 @@ public class NotifyUser extends JavaPlugin {
 
    private void ping(CommandSender sender, Player receiver) {
       (new SoundNotification(receiver)).send();
-      if (sendPingNotification || receiver.hasPermission("NotifyUser.override.notify")) {
-         boolean thisAnonymous = (receiver.hasPermission("NotifyUser.anonymous.receive") ? false :
-            (sender.hasPermission("NotifyUser.anonymous.send") ? true : isAnonymous));
+      if (sendPingNotification || receiver.hasPermission("notifyuser.override.notify")) {
+         boolean thisAnonymous = (receiver.hasPermission("notifyuser.anonymous.receive") ? false :
+            (sender.hasPermission("notifyuser.anonymous.send") ? true : isAnonymous));
          String format = configHandler.getString("messages.ping." + (thisAnonymous ? "anon" : "to"));
          receiver.sendMessage(parseMessage(placeholders, format, sender.getName(), receiver.getName(), Notification.isMutedFor(receiver)));
       }
@@ -276,7 +276,7 @@ public class NotifyUser extends JavaPlugin {
          String groupCommands = "";
 
          for (String sectionName : groupSectionNames) {
-            if (sender.hasPermission("NotifyUser." + groupName + "." + sectionName) || sectionName == "help") {
+            if (sender.hasPermission("notifyuser." + groupName + "." + sectionName) || sectionName == "help") {
                String helpCommand = "";
                ConfigurationSection commandSection = groupSection.getConfigurationSection(sectionName);
                Set<String> commandInfo = commandSection.getKeys(false);

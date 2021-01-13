@@ -7,8 +7,8 @@
     <name>NotifyUser Hooks</name>
     <description>Hooks for NotifyUser.</description>
     <modules>
-        <module>factionsuuid</module>
         <module>core</module>
+        <module>factionsuuid</module>
     </modules>
 
     <parent>

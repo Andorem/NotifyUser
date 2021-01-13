@@ -1,17 +1,18 @@
 package io.github.andorem.notifyuser.hooks;
 
-import io.github.andorem.notifyuser.hooks.factions.FactionsHook;
-import io.github.andorem.notifyuser.hooks.factions.factionsuuid.FactionsUUIDHook;
-import io.github.andorem.notifyuser.NotifyUser;
 import io.github.andorem.notifyuser.hooks.factions.FactionsChatListener;
+import io.github.andorem.notifyuser.hooks.factions.FactionsHook;
+import io.github.andorem.notifyuser.NotifyUser;
+import io.github.andorem.notifyuser.hooks.factions.factionsuuid.FactionsUUIDHook;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class HookManager {
     NotifyUser plugin;
-    ArrayList<Hook> hooks;
+    Set<Hook> hooks = new HashSet<>();
 
     public HookManager(NotifyUser plugin) {
         this.plugin = plugin;
@@ -19,7 +20,8 @@ public class HookManager {
     }
 
     private void initHooks() {
-        hooks = new ArrayList<>();
+        NotifyUser.debug("initHooks: hooks length = " + hooks.size());
+        hooks = new HashSet<>();
         initFactionsHook();
     }
 
@@ -32,6 +34,7 @@ public class HookManager {
 
             // FactionsUUID
             if (factionsVersion.split("-")[1].charAt(0) == 'U') { // Check for FactionsUUID version format, e.g. '1.6.9.5-U0.5.10'
+                NotifyUser.debug("initFactionsHook: setting Listener");
                 factionsHook = new FactionsUUIDHook(plugin, plugin.getConfigHandler().getHooksConfig());
                 factionsHook.setListener(new FactionsChatListener(factionsHook));
             }
@@ -43,12 +46,14 @@ public class HookManager {
             }
             else {
                 hooks.add(factionsHook);
+                NotifyUser.debug("initFactionsHook: adding factionshook, now hooks length = " + hooks.size());
             }
         }
 
     }
 
     public void enableHooks() {
+        NotifyUser.debug("enableHooks: hooks length = " + hooks.size());
         for (Hook hook : hooks) {
             boolean wasEnabled = hook.isEnabled();
             boolean isEnabled = hook.enable();
@@ -57,12 +62,25 @@ public class HookManager {
         }
     }
 
-    public void reloadHooks() {
-        initHooks();
-        enableHooks();
+    public void disableHooks() {
+        NotifyUser.debug("disableHooks: hooks length = " + hooks.size());
+        for (Hook hook: hooks) {
+            NotifyUser.debug("disableHooks: hook = " + hook.getName());
+            hook.disable();
+        }
+        hooks.clear();
+        NotifyUser.debug("disableHooks: hooks length now = " + hooks.size());
     }
 
-    public ArrayList<Hook> getHooks() {
+    public void reloadHooks() {
+        NotifyUser.debug("reloadHooks: hooks length = " + hooks.size());
+        disableHooks();
+        initHooks();
+        enableHooks();
+        NotifyUser.debug("reloadHooks: hooks length now = " + hooks.size());
+    }
+
+    public Set<Hook> getHooks() {
         return this.hooks;
     }
     public NotifyUser getPlugin() { return this.plugin; }

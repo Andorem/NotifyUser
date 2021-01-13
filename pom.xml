@@ -9,8 +9,8 @@
     <description>Send and receive in-chat and sound notifications to other players.</description>
 
     <modules>
-        <module>main</module>
         <module>hooks</module>
+        <module>main</module>
     </modules>
 
     <properties>

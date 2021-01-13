@@ -19,7 +19,6 @@
     </properties>
 
     <build>
-
         <finalName>${project.parent.artifactId}-${project.version}-b${buildNumber}</finalName>
 
         <plugins>
@@ -87,13 +86,11 @@
             <groupId>io.github.andorem.NotifyUser.hooks</groupId>
             <artifactId>core</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.github.andorem.NotifyUser.hooks</groupId>
             <artifactId>factionsuuid</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

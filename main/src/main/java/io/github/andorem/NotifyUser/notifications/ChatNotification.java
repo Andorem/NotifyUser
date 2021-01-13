@@ -1,12 +1,17 @@
 package io.github.andorem.notifyuser.notifications;
 
+import com.google.common.collect.Sets;
+import io.github.andorem.notifyuser.NotifyUser;
+import io.github.andorem.notifyuser.events.PlayerChatNotificationEvent;
 import io.github.andorem.notifyuser.handlers.ConfigurationHandler;
+import org.apache.commons.lang.SerializationUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.io.Serializable;
 import java.util.*;
 
 public class ChatNotification {
@@ -14,7 +19,6 @@ public class ChatNotification {
     private String message;
     private String format;
     private String messageColor;
-    private final Set<Player> recipients;
     private ArrayList<String> receivers = new ArrayList<>();
     private AsyncPlayerChatEvent chatEvent = null;
 
@@ -25,33 +29,31 @@ public class ChatNotification {
     static boolean highlightForAll, allowPartial, muteEnabledForHighlight;
     protected static String highlightMuteType;
 
-    public ChatNotification(Player sender, String message, String format, String messageColor, Set<Player> recipients) {
+    public ChatNotification(Player sender, String message, String format, String messageColor) {
         this.sender = sender;
         this.messageColor = messageColor;
         this.message = message;
         this.format = format;
-        this.recipients = recipients;
     }
 
-    public ChatNotification(Player sender, AsyncPlayerChatEvent chatEvent, String messageColor, Set<Player> recipients) {
+    public ChatNotification(Player sender, AsyncPlayerChatEvent chatEvent, String messageColor) {
         this.sender = sender;
         this.chatEvent = chatEvent;
         this.message = chatEvent.getMessage();
         this.format = chatEvent.getFormat();
         this.messageColor = messageColor;
-        this.recipients = recipients;
     }
 
-    public ChatNotification(Player sender, String message, String format, ChatColor colorCode, Set<Player> recipients) {
-        this(sender, message, format, colorCode.toString(), recipients);
+    public ChatNotification(Player sender, String message, String format, ChatColor colorCode) {
+        this(sender, message, format, colorCode.toString());
     }
 
-    public ChatNotification(Player sender, String message, String format, Set<Player> recipients) {
-        this(sender, message, format, ChatNotification.defaultMessageColor, recipients);
+    public ChatNotification(Player sender, String message, String format) {
+        this(sender, message, format, ChatNotification.defaultMessageColor);
     }
 
     public static boolean canSend(Player sender, String message) {
-        return sender.hasPermission("NotifyUser.player.send") && message.contains(pingSymbol);
+        return sender.hasPermission("notifyuser.player.send") && message.contains(pingSymbol);
     }
 
     private void parseReceivers() {
@@ -93,13 +95,13 @@ public class ChatNotification {
         return word.startsWith(pingSymbol) && word.length() > (pingSymbol.length() + 1);
     }
 
-    protected String getMessageWithHighlights(String receiverName, String message) {
-        return highlightName(message, receiverName);
+    protected String getMessageWithHighlight(String receiverName, String message) {
+        return highlightName(message, getReceiverMatch(receiverName));
     }
 
-    protected String getMessageWithHighlights(String message) {
+    protected String getMessageWithHighlights(ArrayList<String> receiverNames, String message) {
        String newMessage = message;
-        for (String name : receivers) {
+        for (String name : receiverNames) {
            newMessage = highlightName(newMessage, name);
         }
         return newMessage;
@@ -112,6 +114,7 @@ public class ChatNotification {
 
     public boolean send() {
         parseReceivers();
+        NotifyUser.debug("receivers = " + Arrays.toString(receivers.toArray()));
         if (highlightForAll) sendToAll();
         else sendOnlyToReceiversAndOverrides();
 
@@ -119,25 +122,78 @@ public class ChatNotification {
     }
 
     protected void sendToAll() {
-        for (final Player player : recipients) {
-            if (highlightMuteType.equals("all") && !shouldBeHighlightedFor(player)) continue; // player has all chat notifications muted and/or no highlight permissions
-
-            message = getMessageWithHighlights(message);
-            if (!(chatEvent == null)) chatEvent.setMessage(message);
+        String newMessage = getMessageWithHighlights(receivers, message); // default to all names highlighted
+        Set<Player> removeRecipients = new HashSet<>();
+        for (final Player player : chatEvent.getRecipients()) {
             if (isReceiver(player)) playSound(player);
+
+            if (!shouldBeHighlightedFor(player)) {
+                removeRecipients.add(player);
+                if (highlightMuteType.equals("all")) {
+                    // Player has all highlights muted, send regular message
+                    newMessage = getMessage();
+                }
+                else if (highlightMuteType.equals("true")) {
+                    // Player has only themselves' muted, send custom message without player's name highlighted
+                    ArrayList<String> newReceivers = receivers;
+                    newReceivers.remove(getReceiverMatch(player.getName()));
+                    newMessage = getMessageWithHighlights(newReceivers, message);
+                }
+
+                // Remove from list of recipients to send default message to
+                removeRecipients.add(player);
+
+                // Send custom chat event with individualized message
+                AsyncPlayerChatEvent newChatEvent = new PlayerChatNotificationEvent(true, sender, newMessage, Sets.newHashSet(player), chatEvent.getFormat());
+                NotifyUser.debug("new chat event recipients: " + Arrays.toString(newChatEvent.getRecipients().toArray()));
+                Bukkit.getPluginManager().callEvent(newChatEvent);
+            }
+//            if (!(chatEvent == null)) chatEvent.setMessage(message);
+        }
+        if (chatEvent != null) {
+            chatEvent.getRecipients().removeAll(removeRecipients); // modified original event excludes those muting highlights
+            chatEvent.setMessage(getMessageWithHighlights(receivers, message));
         }
     }
 
     protected void sendOnlyToReceiversAndOverrides() {
-        for (final Player player : Bukkit.getOnlinePlayers()) {
+        Set<Player> newRecipients = new HashSet<>();
+
+        NotifyUser.debug("original chat event recipients: " + Arrays.toString(chatEvent.getRecipients().toArray()));
+
+        // Chat event messages must be individualized for each recipient (e.g. highlights only their name)
+        for (Player player : chatEvent.getRecipients()) {
+            if (isReceiver(player)) playSound(player);
+
             if (!shouldBeHighlightedFor(player)) continue;
 
-            recipients.remove(player);
-            String newMessage = getMessageWithHighlights(player.getName(), message);
-            player.sendMessage(String.format(format, sender.getDisplayName(), newMessage));
+            NotifyUser.debug("highlight for: " + player.getName());
+            newRecipients.add(player);
+            String newMessage = isOverride(player) ? getMessageWithHighlights(receivers, message) : getMessageWithHighlight(player.getName(), message); // overrides receive all notifications, regardless of name
 
-            if (isReceiver(player)) playSound(player);
+            AsyncPlayerChatEvent newChatEvent = new PlayerChatNotificationEvent(true, sender, newMessage, Sets.newHashSet(player), chatEvent.getFormat());
+            NotifyUser.debug("new chat event recipients: " + Arrays.toString(newChatEvent.getRecipients().toArray()));
+            Bukkit.getPluginManager().callEvent(newChatEvent);
+
         }
+
+        if (chatEvent != null) chatEvent.getRecipients().removeAll(newRecipients); // modified original event excludes those highlighted
+
+
+        NotifyUser.debug("transformed old chat event recipients: " + Arrays.toString(chatEvent.getRecipients().toArray()));
+
+//        for (final Player player : Bukkit.getOnlinePlayers()) {
+//            if (!shouldBeHighlightedFor(player)) continue;
+//
+//            NotifyUser.debug("highlight for: " + player.getName());
+//            chatEvent.getRecipients().remove(player);
+//            String newMessage = getMessageWithHighlights(player.getName(), message);
+////            player.sendMessage(String.format(format, sender.getDisplayName(), newMessage));
+//
+//            if (isReceiver(player)) playSound(player);
+//        }
+//        Bukkit.getPluginManager().callEvent(new AsyncPlayerChatEvent(sender, newMessage));
+
     }
 
     protected void playSound(Player player) {
@@ -152,8 +208,18 @@ public class ChatNotification {
         return (allowPartial ? firstLower.startsWith(secondLower) : firstLower.equals(secondLower));
     }
 
+    private String getReceiverMatch(String playerName) {
+        if (receivers.contains(playerName)) return playerName;
+        else if (allowPartial) {
+            for (String receiverName : receivers) {
+                if (doNamesMatch(playerName, receiverName)) return receiverName;
+            }
+        }
+        return null;
+    }
+
     protected boolean isReceiver(Player player) {
-        if (!player.hasPermission("NotifyUser.player.receive")) return false;
+        if (!player.hasPermission("notifyuser.player.receive")) return false;
         String playerName = player.getName().toLowerCase();
         if (receivers.contains(playerName)) return true;
         else if (allowPartial) {
@@ -162,6 +228,10 @@ public class ChatNotification {
             }
         }
         return false;
+    }
+
+    protected boolean isOverride(Player player) {
+        return player.hasPermission("notifyuser.override.highlightall");
     }
 
     private boolean isReceiverNameValid(String receiverName) {
@@ -177,14 +247,14 @@ public class ChatNotification {
     }
 
     private boolean hasHighlightPermission(Player player) {
-        return player.hasPermission("NotifyUser.override.highlightall")
-                || player.hasPermission("NotifyUser.player.highlight");
+        return player.hasPermission("notifyuser.override.highlightall")
+                || player.hasPermission("notifyuser.player.highlight");
     }
 
     protected boolean shouldBeHighlightedFor(Player player) {
-        boolean notMutedAndHasPermissions = !isMutedFor(player) && hasHighlightPermission(player);
-        if (highlightForAll) return notMutedAndHasPermissions;       // chat highlights enabled for everyone
-        else return notMutedAndHasPermissions && isReceiver(player); // chat highlights only enabled for the people being tagged (or has override)
+        if (!hasHighlightPermission(player)) return false;
+        else if (highlightForAll) return !isMutedFor(player);  // muting disables all name highlights
+        else return !isMutedFor(player) && isReceiver(player); // muting disables only this player's highlight
     }
 
     private static boolean isMutedFor(Player player) {

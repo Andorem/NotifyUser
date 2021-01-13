@@ -25,7 +25,7 @@ public class SoundNotification {
    }
 
    public void send() {
-      if (muteEnabledForSound && isMutedFor(receiver)) return;
+      if (isMutedFor(receiver)) return;
       if (receiver != null) {
          Location receiverLocation = receiver.getLocation();
          receiver.playSound(receiverLocation, sound, volume, pitch);
@@ -33,7 +33,7 @@ public class SoundNotification {
    }
 
    public static boolean isMutedFor(UUID playerUUID) {
-      return Notification.getMuteHandler().get().contains(playerUUID);
+      return muteEnabledForSound && Notification.isMutedFor(playerUUID);
    }
 
    public static boolean isMutedFor(Player player) {

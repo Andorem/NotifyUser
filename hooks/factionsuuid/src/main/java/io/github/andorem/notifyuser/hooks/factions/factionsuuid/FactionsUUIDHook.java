@@ -13,8 +13,6 @@ import io.github.andorem.notifyuser.hooks.factions.FactionsHook;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import java.util.HashSet;

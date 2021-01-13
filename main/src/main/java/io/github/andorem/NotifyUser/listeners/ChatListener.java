@@ -2,6 +2,7 @@ package io.github.andorem.notifyuser.listeners;
 
 import java.util.*;
 
+import io.github.andorem.notifyuser.events.PlayerChatNotificationEvent;
 import io.github.andorem.notifyuser.notifications.ChatNotification;
 import io.github.andorem.notifyuser.notifications.SoundNotification;
 import io.github.andorem.notifyuser.NotifyUser;
@@ -17,20 +18,10 @@ import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 public class ChatListener implements Listener {
 
    NotifyUser plugin;
-   SoundNotification notification;
 
    String pingSymbol;
-   String highlightColor;
-   String msgColor;
-
-   boolean highlightForAll;
-   String highlightMuteType;
-
-   int minNameLengthRequired;
-   boolean allowPartial;
 
    public ChatListener(NotifyUser plugin) {
-      this.notification = notification;
       this.plugin = plugin;
    }
 
@@ -53,12 +44,13 @@ public class ChatListener implements Listener {
       }
    }
 
-   @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+   @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
    private final void onChat(AsyncPlayerChatEvent e) {
+      if (e instanceof PlayerChatNotificationEvent) return;
       Player thisPlayer = e.getPlayer();
       if (ChatNotification.canSend(thisPlayer, e.getMessage())) {
          String messageColor = ChatColor.getLastColors(e.getFormat());
-         ChatNotification chatNotification = new ChatNotification(thisPlayer, e, messageColor, e.getRecipients());
+         ChatNotification chatNotification = new ChatNotification(thisPlayer, e, messageColor);
          chatNotification.send();
 //         if (notifyAll) e.setMessage(chatNotification.getMessage());
       }
@@ -98,7 +90,7 @@ public class ChatListener implements Listener {
 //      NotifyUser.debug("ChatListener: old eMessage = " + e.getMessage());
 //      NotifyUser.debug("ChatListener: old format = " + e.getFormat());
 //      for (final Player player : Bukkit.getOnlinePlayers()) {
-//         if (player.hasPermission("NotifyUser.player.send") && e.getMessage().contains(pingSymbol)) {
+//         if (player.hasPermission("notifyuser.player.send") && e.getMessage().contains(pingSymbol)) {
 //            String newMessage = "";
 //            String lastColor = msgColor;
 //            Set<String> receiverNames = new HashSet<>();
@@ -143,7 +135,7 @@ public class ChatListener implements Listener {
 //               }
 //
 //               // Sound notification
-//               if (receiver.hasPermission("NotifyUser.player.receive")
+//               if (receiver.hasPermission("notifyuser.player.receive")
 //                       && e.getRecipients().contains(receiver)) {
 //                  for (Player recipient : e.getRecipients()) {
 //                     NotifyUser.debug("ChatListener: recipient = " + recipient.getName());
@@ -165,7 +157,7 @@ public class ChatListener implements Listener {
 //   @EventHandler(priority = EventPriority.HIGHEST)
 //   public void onChat(AsyncPlayerChatEvent e) {
 //      Player player = e.getPlayer();
-//      if (player.hasPermission("NotifyUser.player.send") && e.getMessage().contains(pingSymbol)) {
+//      if (player.hasPermission("notifyuser.player.send") && e.getMessage().contains(pingSymbol)) {
 //         String newMessage = e.getMessage();
 //         Set<String> receiverNames = new HashSet<>();
 //         String[] splitMessage = e.getMessage().split(" ");
@@ -195,7 +187,7 @@ public class ChatListener implements Listener {
 //                  }
 //
 //                  // Sound notification
-//                  if (receiver.hasPermission("NotifyUser.player.receive")
+//                  if (receiver.hasPermission("notifyuser.player.receive")
 //                          && e.getRecipients().contains(receiver)
 //                          && !receiverNames.contains(receiverName)) {
 //                     notification.toPlayer(receiver);
@@ -251,8 +243,8 @@ public class ChatListener implements Listener {
 //
 //   private boolean chatMessageShouldBeHighlightedFor(Player player, String receiverName) {
 //      boolean playerAndReceiverNameMatch = compareNames(player.getName(), receiverName);
-//      boolean highlightForPlayer = playerAndReceiverNameMatch && player.hasPermission("NotifyUser.player.highlight");
-//      boolean overrideHighlight = player.hasPermission("NotifyUser.override.highlightall");
+//      boolean highlightForPlayer = playerAndReceiverNameMatch && player.hasPermission("notifyuser.player.highlight");
+//      boolean overrideHighlight = player.hasPermission("notifyuser.override.highlightall");
 //      return highlightForAll || highlightForPlayer || overrideHighlight;
 //   }
 //
